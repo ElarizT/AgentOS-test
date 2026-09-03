@@ -95,10 +95,10 @@ def fake_response(
 
 
 def test_constructor_configuration_overrides_environment(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("AGENTOS_LLM_API_KEY", "environment-key")
-    monkeypatch.setenv("AGENTOS_LLM_BASE_URL", "https://environment.example/v1")
-    monkeypatch.setenv("AGENTOS_LLM_MODEL", "environment-model")
-    monkeypatch.setenv("AGENTOS_LLM_PROVIDER", "environment-provider")
+    monkeypatch.setenv("SULCUS_LLM_API_KEY", "environment-key")
+    monkeypatch.setenv("SULCUS_LLM_BASE_URL", "https://environment.example/v1")
+    monkeypatch.setenv("SULCUS_LLM_MODEL", "environment-model")
+    monkeypatch.setenv("SULCUS_LLM_PROVIDER", "environment-provider")
 
     provider = OpenAICompatibleProvider(
         api_key="constructor-key",
@@ -118,10 +118,10 @@ def test_constructor_configuration_overrides_environment(monkeypatch: pytest.Mon
 
 
 def test_configuration_from_environment(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("AGENTOS_LLM_API_KEY", "environment-key")
-    monkeypatch.setenv("AGENTOS_LLM_BASE_URL", "https://environment.example/v1")
-    monkeypatch.setenv("AGENTOS_LLM_MODEL", "environment-model")
-    monkeypatch.setenv("AGENTOS_LLM_PROVIDER", "openrouter")
+    monkeypatch.setenv("SULCUS_LLM_API_KEY", "environment-key")
+    monkeypatch.setenv("SULCUS_LLM_BASE_URL", "https://environment.example/v1")
+    monkeypatch.setenv("SULCUS_LLM_MODEL", "environment-model")
+    monkeypatch.setenv("SULCUS_LLM_PROVIDER", "openrouter")
 
     provider = OpenAICompatibleProvider(client=fake_client(fake_response()))
 
@@ -134,7 +134,7 @@ def test_configuration_from_environment(monkeypatch: pytest.MonkeyPatch) -> None
 def test_missing_api_key_is_reported_only_when_provider_is_used(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    monkeypatch.delenv("AGENTOS_LLM_API_KEY", raising=False)
+    monkeypatch.delenv("SULCUS_LLM_API_KEY", raising=False)
     provider = OpenAICompatibleProvider(client=fake_client(fake_response()))
 
     with pytest.raises(LLMProviderError, match="requires an API key"):

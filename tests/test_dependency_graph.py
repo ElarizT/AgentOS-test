@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 from textual.widgets import Static
 
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.dependency_graph import (
     DependencyEdge,
     DependencyGraphSnapshot,
@@ -33,8 +33,8 @@ def lifecycle(name: str, action: str, seconds: int, pid: int | None = None) -> R
     )
 
 
-def make_dashboard() -> AgentOSDashboard:
-    return AgentOSDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
+def make_dashboard() -> SulcusDashboard:
+    return SulcusDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
 
 
 def test_build_graph_constructs_nodes_from_processes_events_and_ipc_endpoints() -> None:

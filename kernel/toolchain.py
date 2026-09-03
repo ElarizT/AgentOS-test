@@ -2,7 +2,7 @@
 
 This module intentionally supports a small, predictable subset of Python. It is
 not a CPython compatibility layer; it emits lightweight standalone WebAssembly
-for arithmetic kernels that can run inside ``agent_os_core.WasmSandboxManager``.
+for arithmetic kernels that can run inside ``sulcus_core.WasmSandboxManager``.
 """
 
 from __future__ import annotations

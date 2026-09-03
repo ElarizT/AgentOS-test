@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from agentos import AgentPermissions, inspect_external_agent, load_external_agent
+from sulcus import AgentPermissions, inspect_external_agent, load_external_agent
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -11,7 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 def write_project(tmp_path, manifest: str, *, entrypoint: bool = True) -> Path:
     project_dir = tmp_path / "external_agent"
     project_dir.mkdir()
-    (project_dir / "agentos.toml").write_text(manifest, encoding="utf-8")
+    (project_dir / "sulcus-agent.toml").write_text(manifest, encoding="utf-8")
     if entrypoint:
         (project_dir / "agent.py").write_text("# external agent\n", encoding="utf-8")
     return project_dir
@@ -99,7 +99,7 @@ def test_inspect_sample_external_agent_includes_manifest_and_permissions() -> No
 
 
 def test_inspect_missing_manifest_returns_friendly_error(tmp_path) -> None:
-    with pytest.raises(ValueError, match="No agentos.toml found at:"):
+    with pytest.raises(ValueError, match="No sulcus-agent.toml found at:"):
         inspect_external_agent(tmp_path)
 
 
@@ -115,3 +115,17 @@ def test_inspect_missing_entrypoint_returns_friendly_error(tmp_path) -> None:
 
     with pytest.raises(ValueError, match="Entrypoint not found: agent.py"):
         inspect_external_agent(project_dir)
+
+
+def test_external_manifest_and_runtime_config_can_coexist(tmp_path: Path) -> None:
+    from sulcus.config import load_config
+    from sulcus.loader import load_external_agent
+
+    (tmp_path / "agent.py").write_text("from sulcus import AgentProcess\n", encoding="utf-8")
+    (tmp_path / "sulcus-agent.toml").write_text(
+        'name = "CoexistingAgent"\ntype = "basic"\nentrypoint = "agent.py"\nruntime = "python"\n',
+        encoding="utf-8",
+    )
+    (tmp_path / "sulcus.toml").write_text('[sulcus]\nexecution_mode = "parallel"\n', encoding="utf-8")
+    assert load_external_agent(tmp_path).name == "CoexistingAgent"
+    assert load_config(cwd=tmp_path).runtime.execution_mode == "parallel"

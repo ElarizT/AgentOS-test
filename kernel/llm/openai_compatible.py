@@ -34,11 +34,11 @@ class OpenAICompatibleProvider:
         if timeout_seconds <= 0:
             raise ValueError("timeout_seconds must be positive")
 
-        self.api_key = _configured_value(api_key, "AGENTOS_LLM_API_KEY")
-        self.base_url = _configured_value(base_url, "AGENTOS_LLM_BASE_URL")
-        self.default_model = _configured_value(default_model, "AGENTOS_LLM_MODEL")
+        self.api_key = _configured_value(api_key, "SULCUS_LLM_API_KEY")
+        self.base_url = _configured_value(base_url, "SULCUS_LLM_BASE_URL")
+        self.default_model = _configured_value(default_model, "SULCUS_LLM_MODEL")
         self.name = (
-            _configured_value(provider_name, "AGENTOS_LLM_PROVIDER")
+            _configured_value(provider_name, "SULCUS_LLM_PROVIDER")
             or "openai-compatible"
         )
         self.timeout_seconds = timeout_seconds
@@ -48,7 +48,7 @@ class OpenAICompatibleProvider:
         if not self.api_key:
             raise LLMProviderError(
                 "OpenAI-compatible provider requires an API key; set "
-                "AGENTOS_LLM_API_KEY or pass api_key",
+                "SULCUS_LLM_API_KEY or pass api_key",
                 category="configuration",
             )
 

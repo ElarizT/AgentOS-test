@@ -1,4 +1,4 @@
-"""Print Sulcus OS capability availability without requiring native bindings."""
+"""Print Sulcus capability availability without requiring native bindings."""
 
 from __future__ import annotations
 
@@ -7,12 +7,12 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from agentos.native import get_runtime_capabilities
+from sulcus.native import get_runtime_capabilities
 
 
 def main() -> int:
     capabilities = get_runtime_capabilities()
-    print("Sulcus OS Runtime Capabilities")
+    print("Sulcus Runtime Capabilities")
     print("Python runtime: available")
     print(f"Native core: {'available' if capabilities.native_core_available else 'unavailable'}")
     print(

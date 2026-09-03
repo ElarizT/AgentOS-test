@@ -1,6 +1,6 @@
 from dataclasses import replace
 
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 from ..contracts import CriticReview, SynthesizedReport
 from ..data import CRITIC_REVIEW

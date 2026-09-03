@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 import pytest
 from textual.widgets import RichLog
 
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.events import RuntimeEvent, RuntimeEventLog, render_runtime_event
 
 
@@ -55,7 +55,7 @@ def test_runtime_event_renderer_includes_core_fields() -> None:
 
 @pytest.mark.asyncio
 async def test_dashboard_renders_runtime_events_and_string_logs() -> None:
-    dashboard = AgentOSDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
+    dashboard = SulcusDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
     dashboard.refresh_metrics = lambda: None  # type: ignore[method-assign]
 
     async with dashboard.run_test(size=(120, 30)) as pilot:

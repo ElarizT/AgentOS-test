@@ -72,7 +72,7 @@ async def test_run_ps_and_kill_process(tmp_path) -> None:
     script = tmp_path / "echo_agent.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class EchoAgent(AgentProcess):
     name = "EchoAgent"
@@ -103,7 +103,7 @@ async def test_duplicate_process_names_are_rejected(tmp_path) -> None:
     script = tmp_path / "duplicate_agent.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class DuplicateAgent(AgentProcess):
     name = "DuplicateAgent"
@@ -139,7 +139,7 @@ async def test_path_outside_allowed_root_is_rejected(tmp_path) -> None:
     script = outside / "agent.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class OutsideAgent(AgentProcess):
     name = "OutsideAgent"
@@ -164,7 +164,7 @@ async def test_bad_script_import_is_rejected_before_registration(tmp_path) -> No
         """
 import os
 
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class BadAgent(AgentProcess):
     name = "BadAgent"
@@ -187,7 +187,7 @@ async def test_process_crash_cleans_resources_and_keeps_status(tmp_path) -> None
     script = tmp_path / "crash_agent.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class CrashAgent(AgentProcess):
     name = "CrashAgent"
@@ -224,7 +224,7 @@ async def test_kill_cleans_resources_and_registry_consistency(tmp_path) -> None:
     script = tmp_path / "long_agent.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class LongAgent(AgentProcess):
     name = "LongAgent"
@@ -253,7 +253,7 @@ async def test_registration_failure_rolls_back_mailbox(tmp_path) -> None:
     script = tmp_path / "rollback_agent.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class RollbackAgent(AgentProcess):
     name = "RollbackAgent"
@@ -280,7 +280,7 @@ async def test_process_mode_startup_and_kill_cleanup(tmp_path) -> None:
     script = tmp_path / "isolated_agent.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class IsolatedAgent(AgentProcess):
     name = "IsolatedAgent"
@@ -317,7 +317,7 @@ async def test_process_mode_child_crash_cleans_resources(tmp_path) -> None:
     script = tmp_path / "crashing_child.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class CrashingChild(AgentProcess):
     name = "CrashingChild"
@@ -356,7 +356,7 @@ async def test_process_mode_invalid_child_metadata_cleans_up(tmp_path) -> None:
     script = tmp_path / "invalid_child.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class InvalidChild(AgentProcess):
     name = "InvalidChild"
@@ -387,7 +387,7 @@ async def test_process_mode_timeout_cleans_stale_child(tmp_path, monkeypatch) ->
     script = tmp_path / "timeout_agent.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class TimeoutAgent(AgentProcess):
     name = "TimeoutAgent"
@@ -423,7 +423,7 @@ async def test_process_mode_windows_safe_path_with_spaces(tmp_path) -> None:
     script = root / "agent with spaces.py"
     script.write_text(
         """
-from kernel.process import AgentProcess
+from sulcus import AgentProcess
 
 class SpacePathAgent(AgentProcess):
     name = "SpacePathAgent"

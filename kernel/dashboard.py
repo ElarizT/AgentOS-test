@@ -39,10 +39,10 @@ class WasmRunMetric:
     error_message: str | None
 
 
-class AgentOSDashboard(App[None]):
-    """Real-time terminal dashboard for Sulcus OS kernel telemetry."""
+class SulcusDashboard(App[None]):
+    """Real-time terminal dashboard for Sulcus kernel telemetry."""
 
-    TITLE = "Sulcus OS"
+    TITLE = "Sulcus"
     SUB_TITLE = "Runtime Dashboard"
 
     CSS = """
@@ -531,7 +531,7 @@ class AgentOSDashboard(App[None]):
         }[health]
 
         self.query_one("#status-bar", Static).update(
-            f"[bold #8bd5ff]SULCUS OS[/]   "
+            f"[bold #8bd5ff]SULCUS[/]   "
             f"[dim]HEALTH[/] [{health_style}]{health:<8}[/]  [#3b4b62]|[/]  "
             f"[dim]AGENTS[/] [bold]{active_agents}/{total_agents}[/]  [#3b4b62]|[/]  "
             f"[dim]TOOL CALLS[/] [bold]{tool_calls}[/]  [#3b4b62]|[/]  "

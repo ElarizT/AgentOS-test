@@ -1,4 +1,4 @@
-"""Render the 56-second, product-first SulcusOS public demo video."""
+"""Render the 56-second, product-first Sulcus public demo video."""
 
 from __future__ import annotations
 
@@ -161,7 +161,7 @@ def pill(draw: ImageDraw.ImageDraw, x: int, y: int, text: str, color=CYAN, face=
     return width
 
 
-def terminal(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], title: str = "sulcus-os") -> None:
+def terminal(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], title: str = "sulcus") -> None:
     x1, y1, x2, y2 = box
     glass(draw, box, accent=CYAN, radius=24)
     draw.rounded_rectangle((x1, y1, x2, y1 + 58), radius=24, fill=(20, 29, 42, 255))
@@ -267,7 +267,7 @@ def scene_hook(t: float) -> Image.Image:
     draw.text((118, 335 + int((1 - enter) * 34)), "RUN UNMANAGED.", font=F52, fill=WHITE)
     draw.line((122, 476, 590, 476), fill=rgba(CYAN, 185), width=4)
     draw.text((120, 525), "Processes, not scripts.", font=F30, fill=CYAN)
-    pill(draw, 120, 640, "SULCUS OS RUNTIME", MINT)
+    pill(draw, 120, 640, "SULCUS RUNTIME", MINT)
     return layer
 
 
@@ -277,7 +277,7 @@ def scene_launch(t: float) -> Image.Image:
     draw.text((110, 70), "LAUNCH A REAL WORKLOAD", font=F38, fill=WHITE)
     draw.text((115, 145), "Flagship Supervised Research Team", font=F20, fill=MUTED)
     box = (105, 230, 1815, 920)
-    terminal(draw, box, "SulcusOS | PowerShell")
+    terminal(draw, box, "Sulcus | PowerShell")
     command = "sulcus demo research-team --parallel --tight-limits --show-timeline --deny-publish"
     visible = int(len(command) * ease((t - 4.7) / 1.45))
     draw.text((150, 330), "PS> ", font=MONO22, fill=CYAN)
@@ -362,7 +362,7 @@ def scene_control(t: float) -> Image.Image:
     draw.text((105, 66), "CONTROL IS PART OF EXECUTION", font=F38, fill=WHITE)
     draw.text((110, 142), "Safe runtime timeline | captured from the flagship run", font=F20, fill=MUTED)
     box = (96, 220, 1340, 945)
-    terminal(draw, box, "SulcusOS | Safe Runtime Timeline")
+    terminal(draw, box, "Sulcus | Safe Runtime Timeline")
     rows = SAFE_ROWS
     draw_event_rows(draw, rows, start_y=310, visible_count=(t - 23.2) * 1.05)
 
@@ -386,7 +386,7 @@ def scene_approval(t: float) -> Image.Image:
     draw = ImageDraw.Draw(layer, "RGBA")
     draw.text((105, 66), "SIDE EFFECTS PAUSE HERE", font=F38, fill=WHITE)
     draw.text((110, 142), "Approval is an explicit pause / resume boundary.", font=F20, fill=MUTED)
-    terminal(draw, (100, 230, 1815, 930), "SulcusOS | Approval Boundary")
+    terminal(draw, (100, 230, 1815, 930), "Sulcus | Approval Boundary")
     draw_event_rows(draw, APPROVAL_ROWS, start_y=315, visible_count=(t - 34.2) * 1.08, x=130)
     local = t - 38.5
     alpha = int(255 * ease(local / 0.55))
@@ -404,7 +404,7 @@ def scene_checkpoint(t: float) -> Image.Image:
     draw = ImageDraw.Draw(layer, "RGBA")
     draw.text((105, 70), "RESTART-SAFE APPROVAL STATE", font=F38, fill=WHITE)
     draw.text((110, 146), "A fresh process resumes the saved checkpoint.", font=F20, fill=MUTED)
-    terminal(draw, (100, 245, 1815, 895), "SulcusOS | Persistent Checkpoint Demo")
+    terminal(draw, (100, 245, 1815, 895), "Sulcus | Persistent Checkpoint Demo")
     command = "python -m examples.agent_tool_loop_persistent_checkpoint_demo"
     draw.text((145, 345), "PS> ", font=MONO22, fill=CYAN)
     command_face = fitted_font(draw, command, max_width=1515, start_size=32, min_size=25, mono=True)
@@ -426,11 +426,11 @@ def scene_final(t: float) -> Image.Image:
     local = t - 50.0
     enter = ease(local / 0.9)
     brand_mark(draw, W // 2, 290, 1.45 * enter, int(255 * enter))
-    center_text(draw, 435, "SULCUS OS", F70, WHITE)
+    center_text(draw, 435, "SULCUS", F70, WHITE)
     center_text(draw, 585, "An operating layer for AI agents.", F30, CYAN)
     x = (W - 820) // 2
     draw.rounded_rectangle((x, 705, x + 820, 795), radius=45, fill=rgba(PANEL_2, 246), outline=rgba(CYAN, 125), width=2)
-    draw.text((x + 54, 728), "github.com/ElarizT/SulcusOS", font=MONO22, fill=CYAN)
+    draw.text((x + 54, 728), "github.com/ElarizT/Sulcus", font=MONO22, fill=CYAN)
     center_text(draw, 875, "RELEASE CANDIDATE | OFFLINE FLAGSHIP DEMO", F18, MUTED)
     return layer
 
@@ -546,13 +546,13 @@ def checkpoint_output() -> list[str]:
 
 def write_companion() -> None:
     (OUT / "NARRATION_AND_TIMELINE.md").write_text(
-        """# SulcusOS primary demo narration and timeline
+        """# Sulcus primary demo narration and timeline
 
 ## Narration script
 
 Most agents still run as scripts: hard to inspect, constrain, or recover.
 
-SulcusOS gives agent workloads a runtime.
+Sulcus gives agent workloads a runtime.
 
 This offline research team plans, gathers evidence, critiques, and synthesizes through registered tools. Every model step and tool call becomes a structured runtime event.
 
@@ -562,7 +562,7 @@ Publication pauses at an explicit approval boundary and stays local when denied.
 
 That paused state can be saved and resumed by a fresh process without repeating the original model request.
 
-SulcusOS - an operating layer for agent systems.
+Sulcus - an operating layer for agent systems.
 
 The delivered video is caption-first and uses a subtle music bed without spoken narration so it remains equally effective when embedded muted. This script is timed for an optional approximately 52-second voiceover.
 
@@ -576,7 +576,7 @@ The delivered video is caption-first and uses a subtle music bed without spoken 
 | 0:23.5-0:34.5 | Control | Real failure recovery and resource-limit event rows |
 | 0:34.5-0:44.5 | Approval | Real approval request, pause, denial, and completion sequence |
 | 0:44.5-0:50.5 | Persistence | Real persistent-checkpoint example output |
-| 0:50.5-0:56.0 | Payoff | SulcusOS identity and GitHub URL |
+| 0:50.5-0:56.0 | Payoff | Sulcus identity and GitHub URL |
 """,
         encoding="utf-8",
     )

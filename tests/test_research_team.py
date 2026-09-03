@@ -6,7 +6,7 @@ from examples.research_team.agents import PlannerAgent, SynthesizerAgent
 from examples.research_team.contracts import ResearchResult
 from examples.research_team.data import BENEFITS, CRITIC_REVIEW, MARKET_TRENDS, RISKS, TOPIC
 from examples.research_team.research_team import run_demo
-from kernel.dashboard import SHELL_PROMPT, AgentOSDashboard
+from kernel.dashboard import SHELL_PROMPT, SulcusDashboard
 from kernel.events import RuntimeEvent
 
 
@@ -19,13 +19,13 @@ def test_dashboard_uses_branded_shell_prompt() -> None:
 
 
 def test_empty_dashboard_tree_shows_placeholder() -> None:
-    tree = AgentOSDashboard._format_agent_tree(None)
+    tree = SulcusDashboard._format_agent_tree(None)
 
     assert "No active hierarchy" in tree
 
 
 def test_agent_tree_uses_consistent_state_markers() -> None:
-    tree = AgentOSDashboard._format_agent_tree(
+    tree = SulcusDashboard._format_agent_tree(
         {
             "supervisor": "Supervisor",
             "children": ["Running", "Restarted", "Failed", "Completed", "Terminated"],
@@ -162,7 +162,7 @@ async def test_research_team_records_real_workflow_events_in_execution_order() -
 @pytest.mark.asyncio
 async def test_dashboard_snapshot_shows_completed_research_team_workflow() -> None:
     state = await run_demo()
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),
@@ -193,7 +193,7 @@ async def test_dashboard_snapshot_shows_completed_research_team_workflow() -> No
 @pytest.mark.asyncio
 async def test_research_team_dashboard_renders_timeline_without_duplicate_events() -> None:
     state = await run_demo()
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),
@@ -232,7 +232,7 @@ async def test_research_team_dashboard_renders_timeline_without_duplicate_events
 @pytest.mark.asyncio
 async def test_research_team_demo_populates_dashboard_hierarchy() -> None:
     state = await run_demo()
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),
@@ -257,7 +257,7 @@ async def test_research_team_demo_populates_dashboard_hierarchy() -> None:
 @pytest.mark.asyncio
 async def test_dashboard_tree_rendering_includes_expected_agent_names() -> None:
     state = await run_demo()
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),
@@ -265,7 +265,7 @@ async def test_dashboard_tree_rendering_includes_expected_agent_names() -> None:
     )
 
     dashboard.load_research_team_snapshot(state)
-    tree = AgentOSDashboard._format_agent_tree(dashboard._demo_hierarchy)
+    tree = SulcusDashboard._format_agent_tree(dashboard._demo_hierarchy)
 
     for name in [
         "ResearchTeamSupervisor",
@@ -282,7 +282,7 @@ async def test_dashboard_tree_rendering_includes_expected_agent_names() -> None:
 @pytest.mark.asyncio
 async def test_dashboard_tree_panel_has_room_for_rendered_hierarchy() -> None:
     state = await run_demo()
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),
@@ -295,7 +295,7 @@ async def test_dashboard_tree_panel_has_room_for_rendered_hierarchy() -> None:
         dashboard._render_agent_tree()
         await pilot.pause(0)
 
-        tree = AgentOSDashboard._format_agent_tree(dashboard._demo_hierarchy)
+        tree = SulcusDashboard._format_agent_tree(dashboard._demo_hierarchy)
         tree_widget = dashboard.query_one("#agent-tree")
         rendered_tree = str(tree_widget.render())
 

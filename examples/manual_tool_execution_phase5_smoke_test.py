@@ -8,13 +8,13 @@ sys.path.insert(
     ),
 )
 
-from agentos.llm import (
+from sulcus.llm import (
     LLMRuntime,
     OpenAICompatibleProvider,
     LLMToolDefinition,
 )
 
-from agentos.tools import (
+from sulcus.tools import (
     ToolRegistry,
     ToolRuntime,
 )
@@ -25,11 +25,11 @@ def add_numbers(a: float, b: float) -> float:
 
 
 def main() -> None:
-    api_key = os.environ.get("AGENTOS_LLM_API_KEY")
+    api_key = os.environ.get("SULCUS_LLM_API_KEY")
 
     if not api_key:
         raise RuntimeError(
-            "Missing AGENTOS_LLM_API_KEY environment variable."
+            "Missing SULCUS_LLM_API_KEY environment variable."
         )
 
     provider = OpenAICompatibleProvider(

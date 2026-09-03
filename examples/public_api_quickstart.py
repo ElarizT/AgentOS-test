@@ -1,4 +1,4 @@
-"""Offline quickstart using only documented ``agentos`` public imports."""
+"""Offline quickstart using only documented ``sulcus`` public imports."""
 
 from __future__ import annotations
 
@@ -7,9 +7,9 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from agentos.llm import LLMResponse, LLMRuntime, LLMToolCall
-from agentos.runtime import AgentToolLoop
-from agentos.tools import ToolRegistry, ToolRuntime
+from sulcus.llm import LLMResponse, LLMRuntime, LLMToolCall
+from sulcus.runtime import AgentToolLoop
+from sulcus.tools import ToolRegistry, ToolRuntime
 
 
 class ScriptedProvider:

@@ -15,7 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "showcase"
 VOICE = OUT / "voice"
 FFMPEG = ROOT / ".video_tools" / "imageio_ffmpeg" / "binaries" / "ffmpeg-win-x86_64-v7.1.exe"
-GIF_PATH = ROOT / "docs" / "AgentOS_demo.gif"
+# This historical showcase renderer uses archived dashboard footage.
+GIF_PATH = OUT / "archive" / "sulcus_demo.gif"
 
 W, H = 1920, 1080
 FPS = 24
@@ -153,7 +154,7 @@ def scene_hero(t: float) -> Image.Image:
     p = ease(t / 1.5)
     brand_mark(d, W // 2, 300, 1.65 * p, int(255 * p))
     title_y = int(444 + (1 - p) * 36)
-    center_text(d, title_y, "SULCUS OS", F64, WHITE)
+    center_text(d, title_y, "SULCUS", F64, WHITE)
     center_text(d, 584, "AN OPERATING SYSTEM FOR AGENTS", F20, CYAN)
     center_text(d, 650, "Run them. Observe them. Recover them.", F18, MUTED)
     x = (W - 544) // 2
@@ -168,10 +169,10 @@ def scene_pillars(t: float) -> Image.Image:
     d.text((150, 106), "AGENTS NEED A RUNTIME", font=F46, fill=WHITE)
     d.text((154, 198), "More than prompts. A place to live, work, and recover.", font=F18, fill=MUTED)
     labels = [
-        ("PROCESS LIFECYCLE", "start · stop · supervise", CYAN),
+        ("PROCESS LIFECYCLE", "start Â· stop Â· supervise", CYAN),
         ("STRUCTURED IPC", "typed agent messages", BLUE),
-        ("PERSISTENT MEMORY", "hot · warm · cold", MINT),
-        ("FAULT RECOVERY", "detect · restart · verify", AMBER),
+        ("PERSISTENT MEMORY", "hot Â· warm Â· cold", MINT),
+        ("FAULT RECOVERY", "detect Â· restart Â· verify", AMBER),
         ("ISOLATION", "child process + WASM", RED),
         ("TRACE + REPLAY", "every event inspectable", CYAN),
     ]
@@ -221,7 +222,7 @@ def scene_dashboard(t: float) -> Image.Image:
     layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(layer, "RGBA")
     d.text((145, 78), "LIVE CONTROL PLANE", font=F36, fill=WHITE)
-    d.text((149, 154), "The dashboard is reading the real Sulcus OS runtime.", font=F16, fill=MUTED)
+    d.text((149, 154), "The dashboard is reading the real Sulcus runtime.", font=F16, fill=MUTED)
     box = (145, 238, 1775, 938)
     d.rounded_rectangle((box[0] + 15, box[1] + 20, box[2] + 15, box[3] + 20), radius=32, fill=(0, 0, 0, 130))
     phase = clamp((t - 14.0) / 13.0)
@@ -254,7 +255,7 @@ def scene_workflow(t: float) -> Image.Image:
     layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(layer, "RGBA")
     d.text((120, 72), "SIX AGENTS. ONE TRACEABLE WORKFLOW.", font=F36, fill=WHITE)
-    d.text((124, 148), "A real deterministic run — no API keys or external services.", font=F16, fill=MUTED)
+    d.text((124, 148), "A real deterministic run â€” no API keys or external services.", font=F16, fill=MUTED)
     planner = (265, 520)
     workers = [(700, 330), (700, 520), (700, 710)]
     synth = (1180, 520)
@@ -307,7 +308,7 @@ def scene_recovery(t: float) -> Image.Image:
     glass_card(d, (130, 255, 1015, 880), accent=AMBER, radius=28)
     d.text((175, 292), "SUPERVISION TRACE", font=F20, fill=WHITE)
     events = [
-        ("00:00.0", "PID 103", "AgentOSDemoCrashProbe", "RUNNING", MINT),
+        ("00:00.0", "PID 103", "SulcusDemoCrashProbe", "RUNNING", MINT),
         ("00:02.4", "PID 103", "intentional crash", "CRASHED", RED),
         ("00:02.5", "SUPERVISOR", "restart policy matched", "RESTARTING", AMBER),
         ("00:02.8", "PID 105", "replacement agent", "RUNNING", MINT),
@@ -358,7 +359,7 @@ def scene_features(t: float) -> Image.Image:
     for box, accent in zip(cards, accents):
         glass_card(d, box, accent=accent, radius=28)
     d.text((180, 330), "PERSISTENT MEMORY", font=F20, fill=MINT)
-    d.text((180, 390), "HOT  →  WARM  →  COLD", font=MONO16, fill=MUTED)
+    d.text((180, 390), "HOT  â†’  WARM  â†’  COLD", font=MONO16, fill=MUTED)
     d.rounded_rectangle((180, 488, 635, 675), radius=20, fill=rgba((8, 16, 25), 255), outline=rgba(MINT, 70), width=2)
     d.text((210, 523), "durable-fact", font=MONO16, fill=MINT)
     d.text((210, 581), "worker doubled 21 to 42", font=MONO16, fill=WHITE)
@@ -401,12 +402,12 @@ def scene_final(t: float) -> Image.Image:
     local = t - 63.0
     p = ease(local / 1.2)
     brand_mark(d, W // 2, 275, 1.35 * p, int(255 * p))
-    center_text(d, 415, "SULCUS OS", F64, WHITE)
+    center_text(d, 415, "SULCUS", F64, WHITE)
     center_text(d, 560, "Build agent systems you can see, understand, and trust.", F24, MUTED)
     x = (W - 780) // 2
     d.rounded_rectangle((x, 683, x + 780, 763), radius=40, fill=rgba(PANEL_2, 245), outline=rgba(CYAN, 100), width=2)
-    d.text((x + 43, 701), "github.com/ElarizT/SulcusOS", font=MONO20, fill=CYAN)
-    center_text(d, 840, "PYTHON + RUST   •   NATIVE IPC   •   WASM ISOLATION", F16, WHITE)
+    d.text((x + 43, 701), "github.com/ElarizT/Sulcus", font=MONO20, fill=CYAN)
+    center_text(d, 840, "PYTHON + RUST   â€¢   NATIVE IPC   â€¢   WASM ISOLATION", F16, WHITE)
     center_text(d, 930, "EXPERIMENTAL AGENT RUNTIME", F12, MUTED)
     return layer
 
@@ -545,10 +546,10 @@ def main() -> None:
     print("Loading authentic dashboard capture...", flush=True)
     DEMO_FRAMES = load_demo_frames()
     make_music(OUT / "music.wav")
-    render_frame(1.8).save(OUT / "sulcus_os_showcase_poster.png")
-    render_frame(38.0).save(OUT / "sulcus_os_showcase_workflow.png")
-    silent = OUT / "sulcus_os_showcase_silent.mp4"
-    final = OUT / "sulcus_os_showcase.mp4"
+    render_frame(1.8).save(OUT / "sulcus_showcase_poster.png")
+    render_frame(38.0).save(OUT / "sulcus_showcase_workflow.png")
+    silent = OUT / "sulcus_showcase_silent.mp4"
+    final = OUT / "sulcus_showcase.mp4"
     render_video(silent)
     mux_audio(silent, final)
     print(f"Final video: {final}", flush=True)

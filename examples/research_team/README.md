@@ -1,7 +1,7 @@
 # Research Team Demo
 
 This legacy example runs a complete deterministic multi-agent research
-workflow with Agent OS messaging primitives. A planner delegates work to three
+workflow with Sulcus messaging primitives. A planner delegates work to three
 research agents, a synthesizer builds a report, and a critic returns a final
 quality score. For the installed flagship runtime demo, use
 `sulcus demo research-team`.
@@ -28,10 +28,10 @@ ResearchTeamSupervisor
 `-- CriticAgent
 ```
 
-## Agent OS capabilities demonstrated
+## Sulcus capabilities demonstrated
 
 - Deterministic multi-agent workflow execution
-- Structured Agent OS IPC messaging
+- Structured Sulcus IPC messaging
 - Serializable dataclass contracts
 - Fan-out from one planner to specialized workers
 - Fan-in from research agents to a synthesizer

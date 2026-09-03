@@ -1,6 +1,7 @@
 include README.md
+include LICENSE
 include pyproject.toml
-recursive-include agentos *.py
+recursive-include sulcus *.py
 recursive-include kernel *.py
 recursive-include examples/supervised_research_team *.py *.md
 global-exclude *.py[cod]
@@ -11,3 +12,4 @@ prune build
 prune target
 prune tests
 prune docs
+prune native

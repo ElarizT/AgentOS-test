@@ -1,6 +1,6 @@
 # Architecture
 
-Sulcus OS is a runtime layer for controlled agent execution. Applications own
+Sulcus is a runtime layer for controlled agent execution. Applications own
 their prompts, domain logic, and tools; Sulcus owns the boundaries around
 execution: registration, validation, supervision, approval, limits,
 checkpointing, and runtime signals.
@@ -25,14 +25,14 @@ use the process/IPC APIs without an LLM.
 
 | Layer | Responsibility | Public entry point |
 | --- | --- | --- |
-| Application / agents | Domain code, prompts, agent classes, approval decisions | Application code; `agentos.AgentProcess` |
-| Agent tool loop | Bounded LLM → tool → LLM rounds | `agentos.runtime.AgentToolLoop` |
-| LLM runtime | Provider-neutral requests, routing, retries, budgets, caching, streaming, and optional cost accounting | `agentos.llm` (advanced) |
-| Tool runtime | Explicit registration, schema validation, execution, and safe results | `agentos.tools` |
-| Execution controls | Tool allow/deny policy, call limits, execution mode, and approval gates | `agentos.runtime` |
-| Persistence | Versioned approval checkpoints and compatibility validation | `agentos.checkpoints` |
-| Configuration | Optional project defaults and environment/explicit precedence | `agentos.config` |
-| Native services | Bounded mailbox transport, native registry/memory primitives, and WASM execution | Capability checks through `agentos.native` |
+| Application / agents | Domain code, prompts, agent classes, approval decisions | Application code; `sulcus.AgentProcess` |
+| Agent tool loop | Bounded LLM → tool → LLM rounds | `sulcus.runtime.AgentToolLoop` |
+| LLM runtime | Provider-neutral requests, routing, retries, budgets, caching, streaming, and optional cost accounting | `sulcus.llm` (advanced) |
+| Tool runtime | Explicit registration, schema validation, execution, and safe results | `sulcus.tools` |
+| Execution controls | Tool allow/deny policy, call limits, execution mode, and approval gates | `sulcus.runtime` |
+| Persistence | Versioned approval checkpoints and compatibility validation | `sulcus.checkpoints` |
+| Configuration | Optional project defaults and environment/explicit precedence | `sulcus.config` |
+| Native services | Bounded mailbox transport, native registry/memory primitives, and WASM execution | Capability checks through `sulcus.native` |
 
 ## Agent processes and supervision
 
@@ -75,11 +75,11 @@ unroutable messages with structured error codes.
 
 Trusted agents route through the host registry. Isolated agents use
 `multiprocessing` queues to bridge serialized envelopes back through that same
-host authority. In the bundled full runtime, `agent_os_core.NativeIPCBus`
+host authority. In the bundled full runtime, `sulcus_core.NativeIPCBus`
 provides bounded native mailboxes and immediate backpressure signals.
 
-The protocol models and helpers in `agentos.ipc` are Python-only. Running the
-complete native-backed IPC host requires `agent_os_core`.
+The protocol models and helpers in `sulcus.ipc` are Python-only. Running the
+complete native-backed IPC host requires `sulcus_core`.
 
 ## LLM abstraction
 
@@ -149,7 +149,7 @@ feedback.
 
 ## Persistent checkpoints
 
-`agentos.checkpoints` serializes paused approval state as deterministic,
+`sulcus.checkpoints` serializes paused approval state as deterministic,
 versioned UTF-8 JSON with a SHA-256 integrity digest. A fresh process must
 reconstruct the provider, loop, registry, and callable implementations. Resume
 validates stable tool names, descriptions, schemas, provider/model labels when
@@ -183,21 +183,21 @@ checkpoints, and the flagship demo. Structured IPC values and `AgentProcess`
 classes can also be authored and tested without loading the extension.
 
 The bundled interactive runtime uses the optional PyO3 extension
-`agent_os_core` for its native kernel registry, bounded IPC bus, native memory
+`sulcus_core` for its native kernel registry, bounded IPC bus, native memory
 primitive, and WASM sandbox. The dashboard additionally needs the `dashboard`
-extra. Use `agentos.native.get_runtime_capabilities()` or `sulcus check`; do not
-import `agent_os_core` directly from application code.
+extra. Use `sulcus.native.get_runtime_capabilities()` or `sulcus check`; do not
+import `sulcus_core` directly from application code.
 
 ## Public and internal boundaries
 
 The intended v1 public surface is:
 
-- `agentos` for the compact process, IPC, tool-loop, and capability facade.
-- `agentos.runtime`, `agentos.tools`, `agentos.ipc`, and `agentos.native` as the
+- `sulcus` for the compact process, IPC, tool-loop, and capability facade.
+- `sulcus.runtime`, `sulcus.tools`, `sulcus.ipc`, and `sulcus.native` as the
   intended stable public submodules.
-- `agentos.llm` as an advanced public integration API.
-- `agentos.config` and `agentos.checkpoints` as documented workflow APIs.
+- `sulcus.llm` as an advanced public integration API.
+- `sulcus.config` and `sulcus.checkpoints` as documented workflow APIs.
 
-`kernel.*`, `main.py`, and the raw `agent_os_core` module are implementation.
+`kernel.*`, `main.py`, and the raw `sulcus_core` module are implementation.
 They remain importable because Sulcus itself uses them, but external code should
 not depend on their compatibility. See [Public API](public_api.md).

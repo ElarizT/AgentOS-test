@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_MEMORY_DIR = Path(os.getenv("AGENT_OS_MEMORY_DIR", ".agent_os/memory"))
+DEFAULT_MEMORY_DIR = Path(os.getenv("SULCUS_MEMORY_DIR", ".sulcus/memory"))
 
 
 def _now() -> float:
@@ -83,7 +83,7 @@ class PersistentMemoryManager:
     """Tiered hot/warm/cold memory manager with JSONL persistence."""
 
     def __init__(self, memory_dir: Path | str | None = None, warm_limit: int = 128) -> None:
-        self.memory_dir = Path(memory_dir or os.getenv("AGENT_OS_MEMORY_DIR", str(DEFAULT_MEMORY_DIR))).expanduser().resolve()
+        self.memory_dir = Path(memory_dir or os.getenv("SULCUS_MEMORY_DIR", str(DEFAULT_MEMORY_DIR))).expanduser().resolve()
         self.memory_dir.mkdir(parents=True, exist_ok=True)
         self.records_path = self.memory_dir / "memories.jsonl"
         self.snapshots_dir = self.memory_dir / "snapshots"

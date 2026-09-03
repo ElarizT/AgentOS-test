@@ -1,6 +1,6 @@
 # Windows Dev Setup
 
-Agent OS should be tested with a normal Windows Python installation, not the
+Sulcus should be tested with a normal Windows Python installation, not the
 Blender-bundled Python runtime. The recommended path is Python 3.11 through the
 Windows `py` launcher.
 
@@ -12,8 +12,8 @@ Windows `py` launcher.
   shim. Recreate it with the commands below.
 - There is no hardcoded Blender Python path in the project. Blender Python is
   useful only as an emergency syntax checker and is not a supported test runner.
-- Native tests import `agent_os_core`, so the Rust extension must be installed
-  into the active venv with `maturin develop`.
+- Native tests import `sulcus_core`, so the Rust extension must be installed
+  into the active venv from `native/` with `python -m maturin develop --locked`.
 
 ## One-Time Setup
 
@@ -38,7 +38,9 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -U pip
 pip install -r requirements-dev.txt
-maturin develop
+cd native
+python -m maturin develop --locked
+cd ..
 ```
 
 ## Run Tests

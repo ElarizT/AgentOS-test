@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from agentos.config import ConfigError, SulcusConfig, discover_config, load_config, resolve_config
+from sulcus.config import ConfigError, SulcusConfig, discover_config, load_config, resolve_config
 
 
 VALID = """[sulcus]
@@ -55,8 +55,8 @@ def test_precedence_is_explicit_then_environment_then_file(tmp_path: Path) -> No
     assert resolved.limits.max_tool_calls_per_loop == 10
 
 
-def test_existing_agentos_llm_environment_aliases_are_preserved() -> None:
-    resolved = resolve_config(environ={"AGENTOS_LLM_PROVIDER": "openrouter", "AGENTOS_LLM_MODEL": "existing-model"})
+def test_sulcus_llm_environment_settings_are_applied() -> None:
+    resolved = resolve_config(environ={"SULCUS_LLM_PROVIDER": "openrouter", "SULCUS_LLM_MODEL": "existing-model"})
     assert resolved.llm.provider == "openrouter"
     assert resolved.llm.model == "existing-model"
 
@@ -86,7 +86,7 @@ def test_environment_validation_is_actionable() -> None:
 
 
 def test_sanitized_output_has_no_environment_secrets(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("AGENTOS_LLM_API_KEY", "SECRET_VALUE")
+    monkeypatch.setenv("SULCUS_LLM_API_KEY", "SECRET_VALUE")
     shown = resolve_config(environ=dict(__import__("os").environ)).sanitized()
     assert "SECRET_VALUE" not in repr(shown)
     assert "api_key" not in repr(shown).casefold()

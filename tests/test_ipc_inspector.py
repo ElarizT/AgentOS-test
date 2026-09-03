@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 from textual.widgets import Static
 
-from kernel.dashboard import AgentOSDashboard, MailboxMetric
+from kernel.dashboard import SulcusDashboard, MailboxMetric
 from kernel.events import RuntimeEvent
 from kernel.ipc_inspector import IPCConnection, build_ipc_snapshot, format_ipc_connection, render_ipc_inspector
 
@@ -11,8 +11,8 @@ from kernel.ipc_inspector import IPCConnection, build_ipc_snapshot, format_ipc_c
 BASE_TIME = datetime(2026, 6, 10, 12, 0, 0, tzinfo=timezone.utc)
 
 
-def make_dashboard() -> AgentOSDashboard:
-    return AgentOSDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
+def make_dashboard() -> SulcusDashboard:
+    return SulcusDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
 
 
 def test_build_ipc_snapshot_aggregates_repeated_connections() -> None:

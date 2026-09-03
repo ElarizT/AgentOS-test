@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import pytest
 from textual.widgets import Static
 
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.events import RuntimeEvent
 from kernel.llm_cost_monitor import (
     build_llm_cost_snapshot,
@@ -40,8 +40,8 @@ def cost_event(
     )
 
 
-def make_dashboard() -> AgentOSDashboard:
-    return AgentOSDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
+def make_dashboard() -> SulcusDashboard:
+    return SulcusDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
 
 
 def test_cost_monitor_aggregates_safe_recorded_events() -> None:

@@ -1,6 +1,6 @@
-# Agent OS IPC Protocol
+# Sulcus IPC Protocol
 
-Agent OS IPC protocol version `0.1` wraps the existing mailbox transport with
+Sulcus IPC protocol version `0.1` wraps the existing mailbox transport with
 structured, validated agent-to-agent messages. The shell lifecycle commands
 (`run`, `ps`, `kill`) still operate on process records and mailboxes; IPC uses
 those records to route by PID.
@@ -36,7 +36,7 @@ Priorities are `low`, `normal`, `high`, and `critical`.
 Agent authors use `AgentProcess` helpers:
 
 ```python
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 self.send(target_pid, {"cmd": "ping"})
 message = await self.receive(timeout=1.0)

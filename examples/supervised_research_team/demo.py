@@ -8,10 +8,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
 
-from agentos.llm import LLMRequest, LLMResponse, LLMRuntime, LLMToolCall
-from agentos.config import load_config, resolve_config
-from agentos.runtime import AgentToolLoop, ToolApprovalDecision, ToolResourceLimits
-from agentos.tools import ToolRegistry, ToolRuntime
+from sulcus.llm import LLMRequest, LLMResponse, LLMRuntime, LLMToolCall
+from sulcus.config import load_config, resolve_config
+from sulcus.runtime import AgentToolLoop, ToolApprovalDecision, ToolResourceLimits
+from sulcus.tools import ToolRegistry, ToolRuntime
 from kernel.events import RuntimeEvent, RuntimeEventLog
 from kernel.timeline import render_runtime_timeline
 

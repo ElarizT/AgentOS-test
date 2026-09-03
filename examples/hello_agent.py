@@ -1,8 +1,8 @@
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 
 class HelloAgent(AgentProcess):
     name = "HelloAgent"
 
     async def on_start(self) -> None:
-        self.remember({"message": "Hello from Agent OS"}, tags=["hello"])
+        self.remember({"message": "Hello from Sulcus"}, tags=["hello"])

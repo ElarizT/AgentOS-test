@@ -1,5 +1,5 @@
 from demos.supervisor_recovery import build_demo_snapshot
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.shell_help import SUPERVISOR_RECOVERY_DEMO_PATH, is_supervisor_recovery_demo_path
 
 
@@ -14,7 +14,7 @@ def test_supervisor_recovery_demo_path_is_runnable_convention() -> None:
 
 
 def test_supervisor_recovery_snapshot_populates_dashboard_state() -> None:
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),
@@ -39,7 +39,7 @@ def test_supervisor_recovery_snapshot_populates_dashboard_state() -> None:
 
 
 def test_supervisor_recovery_tree_marks_worker_restarted() -> None:
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),
@@ -47,7 +47,7 @@ def test_supervisor_recovery_tree_marks_worker_restarted() -> None:
     )
     dashboard.load_supervisor_recovery_snapshot(build_demo_snapshot())
 
-    tree = AgentOSDashboard._format_agent_tree(dashboard._demo_hierarchy)
+    tree = SulcusDashboard._format_agent_tree(dashboard._demo_hierarchy)
 
     assert "RecoverySupervisor" in tree
     assert "RecoveryWorkerAgent (restarted)" in tree

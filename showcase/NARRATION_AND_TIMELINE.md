@@ -1,10 +1,14 @@
-# SulcusOS primary demo narration and timeline
+# Sulcus primary demo narration and timeline
+
+This companion describes the pre-migration media preserved in the
+[historical archive](archive/README.md). Its product terminology has been
+updated to Sulcus; the archived recordings retain their original visuals.
 
 ## Narration script
 
 Most agents still run as scripts: hard to inspect, constrain, or recover.
 
-SulcusOS gives agent workloads a runtime.
+Sulcus gives agent workloads a runtime.
 
 This offline research team plans, gathers evidence, critiques, and synthesizes through registered tools. Every model step and tool call becomes a structured runtime event.
 
@@ -14,7 +18,7 @@ Publication pauses at an explicit approval boundary and stays local when denied.
 
 That paused state can be saved and resumed by a fresh process without repeating the original model request.
 
-SulcusOS - an operating layer for agent systems.
+Sulcus - an operating layer for agent systems.
 
 The delivered video is caption-first and uses a subtle music bed without spoken narration so it remains equally effective when embedded muted. This script is timed for an optional approximately 52-second voiceover.
 
@@ -28,4 +32,4 @@ The delivered video is caption-first and uses a subtle music bed without spoken 
 | 0:23.5-0:34.5 | Control | Real failure recovery and resource-limit event rows |
 | 0:34.5-0:44.5 | Approval | Real approval request, pause, denial, and completion sequence |
 | 0:44.5-0:50.5 | Persistence | Real persistent-checkpoint example output |
-| 0:50.5-0:56.0 | Payoff | SulcusOS identity and GitHub URL |
+| 0:50.5-0:56.0 | Payoff | Sulcus identity and GitHub URL |

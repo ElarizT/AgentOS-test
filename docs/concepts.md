@@ -60,7 +60,7 @@ approval an application-controlled lifecycle rather than terminal UI logic.
 
 ## Persistent checkpoints
 
-`agentos.checkpoints` writes a paused approval checkpoint to a versioned local
+`sulcus.checkpoints` writes a paused approval checkpoint to a versioned local
 JSON file. A later process reconstructs a compatible loop and registry, then
 resumes without repeating the LLM request that produced the pending calls.
 Compatibility is based on tool names, descriptions, schemas, execution safety,
@@ -84,12 +84,12 @@ memory, stream, and cost signals; the event model itself is usable in Python.
 
 ## Stability map
 
-- **Intended stable:** the compact `agentos` facade and the documented
-  `agentos.runtime`, `agentos.tools`, `agentos.ipc`, and `agentos.native`
+- **Intended stable:** the compact `sulcus` facade and the documented
+  `sulcus.runtime`, `sulcus.tools`, `sulcus.ipc`, and `sulcus.native`
   modules.
-- **Advanced:** `agentos.llm`, including provider routing, streaming, caching,
+- **Advanced:** `sulcus.llm`, including provider routing, streaming, caching,
   usage budgets, and cost accounting.
-- **Documented workflow APIs:** `agentos.config` and `agentos.checkpoints`.
+- **Documented workflow APIs:** `sulcus.config` and `sulcus.checkpoints`.
 - **Experimental/internal:** `kernel.*`, dashboard composition, native services,
   WASM toolchain, replay/dependency views, and external-agent loading.
 

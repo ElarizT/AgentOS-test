@@ -74,7 +74,7 @@ class RestartPolicy(str, Enum):
     TEMPORARY = "temporary"
 
 
-PUBLIC_AGENTOS_IMPORTS = {
+PUBLIC_SULCUS_IMPORTS = {
     "AgentProcess",
     "ControlMessage",
     "ErrorMessage",
@@ -94,7 +94,7 @@ PUBLIC_AGENTOS_IMPORTS = {
 
 
 class AgentProcess:
-    """Base class for standalone Agent OS process scripts."""
+    """Base class for standalone Sulcus process scripts."""
 
     name = "AgentProcess"
     mailbox_size = 1024
@@ -126,7 +126,7 @@ class AgentProcess:
 
     async def run(self) -> None:
         if self.stop_event is None or self.bus is None:
-            raise RuntimeError("process was not attached to Agent OS")
+            raise RuntimeError("process was not attached to Sulcus")
 
         started = False
         try:
@@ -154,7 +154,7 @@ class AgentProcess:
         ttl: float | None = None,
     ) -> IPCMessage:
         if self.bus is None:
-            raise RuntimeError("process was not attached to Agent OS")
+            raise RuntimeError("process was not attached to Sulcus")
         message = make_message(
             source_pid=self._require_pid(),
             target_pid=target_pid,
@@ -170,7 +170,7 @@ class AgentProcess:
 
     async def receive(self, timeout: float | None = None) -> IPCMessage:
         if self.bus is None:
-            raise RuntimeError("process was not attached to Agent OS")
+            raise RuntimeError("process was not attached to Sulcus")
         receive = self.bus.recv_message(self.agent_name)
         raw = await asyncio.wait_for(receive, timeout=timeout) if timeout is not None else await receive
         return self._coerce_inbound_message(raw)
@@ -283,7 +283,7 @@ class AgentProcess:
         source: dict[str, Any] | None = None,
     ) -> None:
         if self.memory is None:
-            raise RuntimeError("process was not attached to Agent OS")
+            raise RuntimeError("process was not attached to Sulcus")
         evicted = False
         if hasattr(self.memory, "append_context_frame"):
             try:
@@ -458,7 +458,7 @@ class ProcessRegistry:
 
     async def run_external_project(self, raw_path: str) -> ExternalAgentRunResult:
         """Validate and run one short-lived external basic Python agent."""
-        from agentos.loader import load_external_agent
+        from sulcus.loader import load_external_agent
 
         manifest = load_external_agent(raw_path)
         events = [
@@ -700,7 +700,7 @@ class ProcessRegistry:
                 child_inbox,
                 child_outbox,
             ),
-            name=f"agent-os-process-{pid}",
+            name=f"sulcus-process-{pid}",
         )
         child.start()
 
@@ -979,7 +979,7 @@ class ProcessRegistry:
         return self.route_ipc_message(message)
 
     def _load_process(self, path: Path) -> AgentProcess:
-        module_name = f"agent_os_dynamic_{path.stem}_{abs(hash(path))}"
+        module_name = f"sulcus_dynamic_{path.stem}_{abs(hash(path))}"
         spec = importlib.util.spec_from_file_location(module_name, path)
         if spec is None or spec.loader is None:
             raise ValueError(f"could not load Python module from {path}")
@@ -1018,16 +1018,16 @@ class ProcessRegistry:
                 names = ", ".join(alias.name for alias in node.names)
                 raise ValueError(
                     f"agent script import is not allowed: import {names}. "
-                    "Use 'from agentos import AgentProcess'; additional imports are disabled for agent scripts."
+                    "Use 'from sulcus import AgentProcess'; additional imports are disabled for agent scripts."
                 )
             if isinstance(node, ast.ImportFrom):
                 module = node.module or ""
                 imported_names = {alias.name for alias in node.names}
-                allowed_names = PUBLIC_AGENTOS_IMPORTS if module == "agentos" else {"AgentProcess"}
-                if module not in {"agentos", "kernel.process"} or imported_names - allowed_names:
+                allowed_names = PUBLIC_SULCUS_IMPORTS if module == "sulcus" else {"AgentProcess"}
+                if module not in {"sulcus", "kernel.process"} or imported_names - allowed_names:
                     raise ValueError(
                         f"agent script import is not allowed: from {module} import {', '.join(sorted(imported_names))}. "
-                        "Use 'from agentos import AgentProcess'; additional imports are disabled for agent scripts."
+                        "Use 'from sulcus import AgentProcess'; additional imports are disabled for agent scripts."
                     )
             if isinstance(node, ast.ClassDef):
                 if any(_base_name(base) == "AgentProcess" for base in node.bases):
@@ -1648,7 +1648,7 @@ class ProcessRegistry:
     def _minimal_child_environment(self) -> dict[str, str]:
         keys = ["PATH", "SYSTEMROOT", "WINDIR", "TEMP", "TMP", "PYTHONPATH"]
         env = {key: os.environ[key] for key in keys if key in os.environ}
-        env["AGENT_OS_CHILD_PROCESS"] = "1"
+        env["SULCUS_CHILD_PROCESS"] = "1"
         return env
 
     def _bump_message_stat(self, pid: int, key: str) -> None:

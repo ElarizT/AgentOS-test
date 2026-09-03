@@ -3,10 +3,10 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from agentos.runtime import AgentToolLoop
+from sulcus.runtime import AgentToolLoop
 from kernel.events import RuntimeEventLog
-from agentos.llm import LLMRuntime, OpenAICompatibleProvider
-from agentos.tools import ToolRegistry, ToolRuntime
+from sulcus.llm import LLMRuntime, OpenAICompatibleProvider
+from sulcus.tools import ToolRegistry, ToolRuntime
 
 
 EXPECTED_TOOL_NAME = "add_numbers"
@@ -33,19 +33,19 @@ def assert_successful_agent_tool_loop_result(result) -> None:
 
 
 def main() -> None:
-    api_key = os.environ.get("AGENTOS_LLM_API_KEY")
+    api_key = os.environ.get("SULCUS_LLM_API_KEY")
     if not api_key:
-        raise RuntimeError("Missing AGENTOS_LLM_API_KEY")
+        raise RuntimeError("Missing SULCUS_LLM_API_KEY")
 
     provider = OpenAICompatibleProvider(
-        provider_name=os.environ.get("AGENTOS_LLM_PROVIDER", "openrouter"),
+        provider_name=os.environ.get("SULCUS_LLM_PROVIDER", "openrouter"),
         api_key=api_key,
         base_url=os.environ.get(
-            "AGENTOS_LLM_BASE_URL",
+            "SULCUS_LLM_BASE_URL",
             "https://openrouter.ai/api/v1",
         ),
         default_model=os.environ.get(
-            "AGENTOS_LLM_MODEL",
+            "SULCUS_LLM_MODEL",
             "openai/gpt-oss-120b:free",
         ),
         timeout_seconds=60,

@@ -67,8 +67,8 @@ def format_shell_help(process_root: Path) -> str:
         f"  run {MEMORY_PAGING_DEMO_PATH}\n"
         "\n"
         "execution mode:\n"
-        "  AGENT_OS_PROCESS_ISOLATION=in-process  trusted local mode (default)\n"
-        "  AGENT_OS_PROCESS_ISOLATION=process     spawned child process isolation\n"
+        "  SULCUS_PROCESS_ISOLATION=in-process  trusted local mode (default)\n"
+        "  SULCUS_PROCESS_ISOLATION=process     spawned child process isolation\n"
         "\n"
         "SDK guide: docs/sdk_quickstart.md"
     )

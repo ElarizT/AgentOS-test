@@ -1,8 +1,8 @@
 from kernel.process import AgentProcess
 
 
-class AgentOSDemoMemory(AgentProcess):
-    name = "AgentOSDemoMemory"
+class SulcusDemoMemory(AgentProcess):
+    name = "SulcusDemoMemory"
     capabilities = ("demo-memory",)
     token_budget = 6
 

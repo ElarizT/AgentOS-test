@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from agentos.llm import (
+from sulcus.llm import (
     LLMRuntime,
     OpenAICompatibleProvider,
     LLMResponseCache,
@@ -23,12 +23,12 @@ def print_section(title: str) -> None:
 
 
 def main() -> None:
-    api_key = os.environ.get("AGENTOS_LLM_API_KEY")
+    api_key = os.environ.get("SULCUS_LLM_API_KEY")
 
     if not api_key:
         raise RuntimeError(
-            "Missing AGENTOS_LLM_API_KEY. Set it in PowerShell first:\n"
-            '$env:AGENTOS_LLM_API_KEY="your_openrouter_key"'
+            "Missing SULCUS_LLM_API_KEY. Set it in PowerShell first:\n"
+            '$env:SULCUS_LLM_API_KEY="your_openrouter_key"'
         )
 
     provider = OpenAICompatibleProvider(
@@ -62,7 +62,7 @@ def main() -> None:
     messages = [
         {
             "role": "user",
-            "content": "Reply with exactly: Agent OS integration test passed.",
+            "content": "Reply with exactly: Sulcus integration test passed.",
         }
     ]
 
@@ -129,7 +129,7 @@ def main() -> None:
     print_section("4. BASIC ASSERTIONS")
 
     assert response_1.content is not None
-    assert "Agent OS integration test passed" in response_1.content
+    assert "Sulcus integration test passed" in response_1.content
     assert response_1.provider == "openrouter"
 
     assert response_2.content is not None

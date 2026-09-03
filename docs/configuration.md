@@ -37,9 +37,8 @@ Values resolve in this order, from highest to lowest priority:
 Supported variables are `SULCUS_EXECUTION_MODE`,
 `SULCUS_REQUIRE_TOOL_APPROVAL`, `SULCUS_MAX_TOOL_CALLS_PER_LOOP`,
 `SULCUS_MAX_TOOL_CALLS_PER_ROUND`, `SULCUS_TOOL_TIMEOUT_MS`,
-`SULCUS_LLM_PROVIDER`, and `SULCUS_LLM_MODEL`. Existing
-`AGENTOS_LLM_PROVIDER` and `AGENTOS_LLM_MODEL` settings remain supported as LLM
-aliases. API keys remain provider environment settings and are never loaded
+`SULCUS_LLM_PROVIDER`, and `SULCUS_LLM_MODEL`.
+API keys remain provider environment settings and are never loaded
 into or printed by project configuration.
 
 ## Commands
@@ -70,7 +69,7 @@ network access.
 ## Python API
 
 ```python
-from agentos.config import SulcusConfig, load_config, resolve_config
+from sulcus.config import SulcusConfig, load_config, resolve_config
 
 file_config = load_config()
 effective = resolve_config(file_config, explicit={"execution_mode": "parallel"})
@@ -79,3 +78,24 @@ effective = resolve_config(file_config, explicit={"execution_mode": "parallel"})
 Common errors include misspelled section names, quoted booleans such as
 `"true"`, negative limits, and unsupported provider names. CLI errors are
 concise and do not include tracebacks.
+
+## Host and provider environment settings
+
+The host also accepts these product-specific variables (separate from the
+optional project configuration):
+
+- `SULCUS_LLM_API_KEY`, `SULCUS_LLM_BASE_URL`, `SULCUS_LLM_MODEL`, and `SULCUS_LLM_PROVIDER`
+- `SULCUS_AGENTS_MANIFEST`, `SULCUS_MAILBOX_SIZE`, and `SULCUS_AGENT_TOKEN_BUDGET`
+- `SULCUS_SANDBOX_FUEL`, `SULCUS_HOST_IDLE_SECONDS`, and `SULCUS_HOST_RETRY_SECONDS`
+- `SULCUS_ENABLE_LEGACY_AGENTS`, `SULCUS_ENABLE_STDIN`, and `SULCUS_BOOT_TASK`
+- `SULCUS_PROCESS_ROOT`, `SULCUS_PROCESS_ISOLATION`, and `SULCUS_PROCESS_STARTUP_TIMEOUT`
+- `SULCUS_MEMORY_DIR` (defaults to `.sulcus/memory`)
+
+The runtime sets `SULCUS_CHILD_PROCESS=1` for spawned child processes.
+Provider-standard variables such as `OPENAI_API_KEY` keep their existing meaning.
+Update local shell profiles and launch scripts to use the `SULCUS_` names;
+previous product-specific prefixes are no longer read.
+
+External agent projects use `sulcus-agent.toml` for their entrypoint and
+permissions manifest. This is distinct from the optional `sulcus.toml` runtime
+configuration, so both files can coexist without changing either schema.

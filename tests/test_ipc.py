@@ -9,7 +9,7 @@ from kernel.native_core import native_core_available, require_native_core
 pytestmark = pytest.mark.requires_native_core
 
 if not native_core_available():
-    pytest.skip("requires agent_os_core native extension", allow_module_level=True)
+    pytest.skip("requires sulcus_core native extension", allow_module_level=True)
 
 native_core = require_native_core("native IPC tests")
 AgentMessage = native_core.AgentMessage

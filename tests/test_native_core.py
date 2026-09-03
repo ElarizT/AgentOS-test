@@ -10,7 +10,7 @@ import kernel.native_core as native_core
 
 
 def load_without_native(monkeypatch: pytest.MonkeyPatch) -> ModuleType:
-    monkeypatch.setitem(sys.modules, "agent_os_core", None)
+    monkeypatch.setitem(sys.modules, "sulcus_core", None)
     return importlib.reload(native_core)
 
 
@@ -55,9 +55,9 @@ def test_capability_report_reflects_missing_native(monkeypatch: pytest.MonkeyPat
 
 
 def test_capability_report_uses_available_native_module(monkeypatch: pytest.MonkeyPatch) -> None:
-    fake = ModuleType("agent_os_core")
+    fake = ModuleType("sulcus_core")
     fake.AgentMessage = object
-    monkeypatch.setitem(sys.modules, "agent_os_core", fake)
+    monkeypatch.setitem(sys.modules, "sulcus_core", fake)
     try:
         module = importlib.reload(native_core)
         assert module.native_core_available() is True

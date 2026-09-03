@@ -5,10 +5,10 @@ from __future__ import annotations
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from agentos.checkpoints import inspect_checkpoint, resume_checkpoint, save_checkpoint
-from agentos.llm import LLMRequest, LLMResponse, LLMRuntime, LLMToolCall, LLMToolDefinition
-from agentos.runtime import AgentToolLoop, AgentToolLoopConfig, ToolApprovalDecision
-from agentos.tools import ToolRegistry, ToolRuntime
+from sulcus.checkpoints import inspect_checkpoint, resume_checkpoint, save_checkpoint
+from sulcus.llm import LLMRequest, LLMResponse, LLMRuntime, LLMToolCall, LLMToolDefinition
+from sulcus.runtime import AgentToolLoop, AgentToolLoopConfig, ToolApprovalDecision
+from sulcus.tools import ToolRegistry, ToolRuntime
 
 
 SCHEMA = {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}

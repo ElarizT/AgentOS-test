@@ -2,7 +2,7 @@ import asyncio
 
 import pytest
 
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.process import ProcessRegistry
 from test_process_registry import FakeBus, FakeKernel, FakeMemory
 
@@ -285,11 +285,11 @@ async def test_dashboard_reflects_restarted_supervised_child(tmp_path) -> None:
     await registry.kill(child.pid)
     rows = await registry.list_processes()
 
-    hierarchy = AgentOSDashboard._hierarchy_from_process_rows(rows)
-    tree = AgentOSDashboard._format_agent_tree(hierarchy)
+    hierarchy = SulcusDashboard._hierarchy_from_process_rows(rows)
+    tree = SulcusDashboard._format_agent_tree(hierarchy)
 
     assert hierarchy == {"supervisor": "Parent", "children": ["Child (restarted)"]}
-    assert AgentOSDashboard._display_process_status("killed") == "TERMINATED"
+    assert SulcusDashboard._display_process_status("killed") == "TERMINATED"
     assert "Child (restarted)" in tree
     assert "Child (terminated)" not in tree
 

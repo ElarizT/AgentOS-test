@@ -2,17 +2,17 @@
 
 from __future__ import annotations
 
-from agentos._version import __version__
+from sulcus._version import __version__
 import argparse
 from importlib.util import find_spec
 from importlib import import_module
 import json
 from typing import Sequence
 
-from agentos.config import ConfigError, discover_config, load_config, resolve_config
-from agentos.native import native_core_available
-from agentos.checkpoints import CheckpointError, inspect_checkpoint, resume_checkpoint
-from agentos.runtime import AgentToolLoop, ToolApprovalDecision
+from sulcus.config import ConfigError, discover_config, load_config, resolve_config
+from sulcus.native import native_core_available
+from sulcus.checkpoints import CheckpointError, inspect_checkpoint, resume_checkpoint
+from sulcus.runtime import AgentToolLoop, ToolApprovalDecision
 
 
 def _module_available(name: str) -> bool:
@@ -22,19 +22,23 @@ def _module_available(name: str) -> bool:
         return False
 
 
-def runtime_check_main() -> int:
+def runtime_check_main(argv: Sequence[str] | None = None) -> int:
     """Print capability status without requiring Rust bindings."""
+    parser = argparse.ArgumentParser(
+        prog="sulcus-check", description="Report Sulcus runtime capabilities."
+    )
+    parser.parse_args(argv)
     native_available = native_core_available()
-    print(f"Sulcus OS {__version__}")
+    print(f"Sulcus {__version__}")
     print("Python runtime: available")
     print(f"Native core: {'available' if native_available else 'unavailable'}")
     dashboard_available = native_available and _module_available("textual")
     print(f"Dashboard: {'available' if dashboard_available else 'unavailable'}")
     print("Python LLM/tool runtime: available")
     if not native_available:
-        print("Native features are optional. For local native development, run: maturin develop")
+        print("Native features are optional. For local native development, run from native/: python -m maturin develop --locked")
     if not _module_available("textual"):
-        print("For dashboard Python dependencies, install: pip install 'sulcus-os[dashboard]'")
+        print("For dashboard Python dependencies, install: pip install 'sulcus[dashboard]'")
     return 0
 
 
@@ -104,7 +108,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     """Run the installed ``sulcus`` command."""
     args = _build_parser().parse_args(argv)
     if args.command == "check":
-        return runtime_check_main()
+        return runtime_check_main([])
     if args.command == "config":
         path = discover_config()
         if args.config_command == "path":

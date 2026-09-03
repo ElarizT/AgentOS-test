@@ -1,4 +1,4 @@
-"""Safe explicit Agent OS loop for LLM tool orchestration."""
+"""Safe explicit Sulcus loop for LLM tool orchestration."""
 
 from __future__ import annotations
 

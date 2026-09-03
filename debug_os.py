@@ -22,9 +22,9 @@ try:
     print("   -> Toolchain: OK")
 
     print("\n3. Ingesting Shell Environment Parameters...")
-    provider = os.getenv("AGENT_OS_LLM_PROVIDER")
-    model = os.getenv("AGENT_OS_LLM_MODEL")
-    base_url = os.getenv("AGENT_OS_LLM_BASE_URL")
+    provider = os.getenv("SULCUS_LLM_PROVIDER")
+    model = os.getenv("SULCUS_LLM_MODEL")
+    base_url = os.getenv("SULCUS_LLM_BASE_URL")
     api_key = os.getenv("OPENAI_API_KEY")
     print(f"   -> Provider: {provider}\n   -> Model: {model}\n   -> Base URL: {base_url}")
 

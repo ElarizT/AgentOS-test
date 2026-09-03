@@ -41,7 +41,7 @@ class DemoBus:
 
 async def run_demo() -> dict[str, Any]:
     print("=" * 64)
-    print("Agent OS Research Team Demo")
+    print("Sulcus Research Team Demo")
     print("=" * 64)
     print("[SUPERVISOR] Research Team Started")
     print("\n--- IPC Workflow ---")

@@ -4,8 +4,8 @@ Checkpoint persistence is optional. Normal loop runs and in-memory resumes do
 not serialize JSON.
 
 ```python
-from agentos.checkpoints import save_checkpoint, load_checkpoint, resume_checkpoint
-from agentos.runtime import ToolApprovalDecision
+from sulcus.checkpoints import save_checkpoint, load_checkpoint, resume_checkpoint
+from sulcus.runtime import ToolApprovalDecision
 
 save_checkpoint(paused.checkpoint, "approval.checkpoint.json")
 checkpoint = load_checkpoint("approval.checkpoint.json")  # inspectable data only

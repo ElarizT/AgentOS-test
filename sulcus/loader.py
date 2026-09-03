@@ -1,4 +1,4 @@
-"""Load and validate external Agent OS project manifests."""
+"""Load and validate external Sulcus project manifests."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ except ModuleNotFoundError:  # pragma: no cover - Python 3.10 compatibility
     import tomli as tomllib
 
 
-MANIFEST_FILENAME = "agentos.toml"
+MANIFEST_FILENAME = "sulcus-agent.toml"
 SUPPORTED_AGENT_TYPES = {"basic"}
 SUPPORTED_RUNTIMES = {"python"}
 
@@ -94,7 +94,7 @@ def inspect_external_agent(project_dir: str | Path) -> str:
             or "external agent project directory does not exist:" in message
         ):
             project_path = Path(project_dir).expanduser()
-            raise ValueError(f"No agentos.toml found at: {project_path}") from exc
+            raise ValueError(f"No sulcus-agent.toml found at: {project_path}") from exc
         if "unsupported external agent runtime '" in message:
             runtime = message.split("'", 2)[1]
             raise ValueError(f"Unsupported runtime: {runtime}") from exc
@@ -159,3 +159,9 @@ def _manifest_entrypoint(project_dir: str | Path) -> str:
 
 def _format_bool(value: bool) -> str:
     return "true" if value else "false"
+
+
+__all__ = [
+    "AgentPermissions", "ExternalAgentManifest",
+    "inspect_external_agent", "load_external_agent",
+]

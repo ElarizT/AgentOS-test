@@ -1,6 +1,6 @@
 # Troubleshooting
 
-## `agent_os_core` is unavailable
+## `sulcus_core` is unavailable
 
 This is expected in Python-only mode. Confirm with `sulcus check`; LLM, tool
 loop, limits, approval, checkpoints, and the flagship demo remain available.
@@ -12,8 +12,10 @@ Activate the intended virtual environment, then run from the repository root:
 
 ```powershell
 python -m pip install -e .[native-dev]
-maturin develop
-python -c "import agent_os_core; print('native core available')"
+cd native
+python -m maturin develop --locked
+cd ..
+python -c "import sulcus_core; print('native core available')"
 sulcus check
 ```
 
@@ -60,7 +62,7 @@ installation and execution:
 
 ```powershell
 python -m pip install -e .
-python -m agentos.cli --version
+python -m sulcus.cli --version
 ```
 
 If the module command works but `sulcus` does not, reopen the shell after
@@ -73,7 +75,7 @@ Python refer to the same environment. If metadata is stale, uninstall and
 reinstall in the active environment:
 
 ```powershell
-python -m pip uninstall sulcus-os
+python -m pip uninstall sulcus
 python -m pip install -e .
 python scripts\verify_package.py
 ```

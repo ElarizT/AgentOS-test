@@ -1,0 +1,20 @@
+# Local native build metadata; the normal Sulcus distribution remains Python-only.
+[build-system]
+requires = ["maturin>=1.9.3"]
+build-backend = "maturin"
+
+[project]
+name = "sulcus-core"
+dynamic = ["version"]
+description = "Optional native services for Sulcus."
+requires-python = ">=3.10"
+license = "Elastic-2.0"
+license-files = ["LICENSE"]
+
+[project.urls]
+Repository = "https://github.com/ElarizT/Sulcus"
+
+[tool.maturin]
+manifest-path = "../Cargo.toml"
+module-name = "sulcus_core"
+locked = true

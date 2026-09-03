@@ -1,4 +1,4 @@
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 
 class ExternalBasicAgent(AgentProcess):

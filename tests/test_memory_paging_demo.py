@@ -3,7 +3,7 @@ from types import SimpleNamespace
 import pytest
 
 from demos.memory_paging import build_demo_snapshot
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.events import RuntimeEvent
 from kernel.shell_help import MEMORY_PAGING_DEMO_PATH, format_demo_browser, is_memory_paging_demo_path
 from textual.widgets import RichLog, Static
@@ -13,8 +13,8 @@ class EmptyTelemetry:
     pass
 
 
-def make_dashboard() -> AgentOSDashboard:
-    return AgentOSDashboard(
+def make_dashboard() -> SulcusDashboard:
+    return SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),

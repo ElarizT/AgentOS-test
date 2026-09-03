@@ -137,8 +137,8 @@ def resolve_config(
     ):
         if variable in env:
             limits = replace(limits, **{field: _environment_limit(env[variable], variable)})
-    provider = env.get("SULCUS_LLM_PROVIDER", env.get("AGENTOS_LLM_PROVIDER"))
-    model = env.get("SULCUS_LLM_MODEL", env.get("AGENTOS_LLM_MODEL"))
+    provider = env.get("SULCUS_LLM_PROVIDER")
+    model = env.get("SULCUS_LLM_MODEL")
     if provider is not None:
         llm = replace(llm, provider=_provider(provider, None, "SULCUS_LLM_PROVIDER"))
     if model is not None:

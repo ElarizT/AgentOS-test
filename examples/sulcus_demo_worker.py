@@ -1,8 +1,8 @@
 from kernel.process import AgentProcess
 
 
-class AgentOSDemoWorker(AgentProcess):
-    name = "AgentOSDemoWorker"
+class SulcusDemoWorker(AgentProcess):
+    name = "SulcusDemoWorker"
     capabilities = ("demo-worker",)
 
     async def on_message(self, message) -> None:

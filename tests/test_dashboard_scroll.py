@@ -3,7 +3,7 @@ from types import SimpleNamespace
 import pytest
 from textual.widgets import DataTable, Input, RichLog, Static
 
-from kernel.dashboard import AgentOSDashboard, MailboxMetric
+from kernel.dashboard import SulcusDashboard, MailboxMetric
 from kernel.events import RuntimeEvent
 from main import format_external_agent_run
 
@@ -12,8 +12,8 @@ class EmptyTelemetry:
     pass
 
 
-def make_dashboard() -> AgentOSDashboard:
-    return AgentOSDashboard(
+def make_dashboard() -> SulcusDashboard:
+    return SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),
@@ -43,8 +43,8 @@ async def test_dashboard_chrome_surfaces_branded_system_summary() -> None:
 
         status = str(dashboard.query_one("#status-bar", Static).render())
         prompt = dashboard.query_one("#shell-input", Input)
-        assert dashboard.title == "Sulcus OS"
-        assert "SULCUS OS" in status
+        assert dashboard.title == "Sulcus"
+        assert "SULCUS" in status
         assert "HEALTH" in status
         assert "AGENTS" in status
         assert "TOOL CALLS" in status
@@ -54,7 +54,7 @@ async def test_dashboard_chrome_surfaces_branded_system_summary() -> None:
 
 
 def test_dashboard_health_states_follow_runtime_conditions() -> None:
-    health = AgentOSDashboard._health_state
+    health = SulcusDashboard._health_state
 
     assert health([], None) == "HEALTHY"
     assert health([{"status": "killed"}], None) == "HEALTHY"
@@ -150,7 +150,7 @@ async def test_execution_panel_renders_external_lifecycle_and_has_useful_height(
 
 @pytest.mark.asyncio
 async def test_shell_output_is_separate_from_runtime_telemetry() -> None:
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),

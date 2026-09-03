@@ -1,4 +1,4 @@
-﻿"""Export a current SulcusOS dashboard frame after the bundled research demo runs."""
+﻿"""Export a current Sulcus dashboard frame after the bundled research demo runs."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ if SITE_PACKAGES.exists():
 sys.path.insert(0, str(ROOT))
 
 from examples.research_team.research_team import run_demo  # noqa: E402
-from kernel.dashboard import AgentOSDashboard  # noqa: E402
+from kernel.dashboard import SulcusDashboard  # noqa: E402
 
 
 class EmptyTelemetry:
@@ -27,7 +27,7 @@ async def capture() -> Path:
     with contextlib.redirect_stdout(io.StringIO()):
         state = await run_demo()
 
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=EmptyTelemetry(),
         bus=EmptyTelemetry(),
         memory=EmptyTelemetry(),

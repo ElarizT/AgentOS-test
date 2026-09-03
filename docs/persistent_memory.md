@@ -1,6 +1,6 @@
 # Persistent Memory Paging
 
-Agent OS memory now has three tiers:
+Sulcus memory now has three tiers:
 
 - Hot memory: active in-process context within the token budget.
 - Warm memory: recently evicted records retained locally in memory.
@@ -9,7 +9,7 @@ Agent OS memory now has three tiers:
 The default store path is configurable:
 
 ```powershell
-$env:AGENT_OS_MEMORY_DIR = ".agent_os/memory"
+$env:SULCUS_MEMORY_DIR = ".sulcus/memory"
 ```
 
 The v0.1 backend is intentionally simple and inspectable:
@@ -23,7 +23,7 @@ The v0.1 backend is intentionally simple and inspectable:
 Agents can use:
 
 ```python
-self.remember({"fact": "Agent OS has structured IPC"}, importance=0.8, tags=["ipc"])
+self.remember({"fact": "Sulcus has structured IPC"}, importance=0.8, tags=["ipc"])
 records = self.recall(query="structured", tags=["ipc"], limit=5)
 self.forget(records[0]["memory_id"])
 stats = self.memory_stats()
@@ -76,3 +76,7 @@ exists:
 - `memory_forgotten`
 - `memory_snapshot_created`
 - `memory_restored`
+
+The default memory directory is `.sulcus/memory`. To reuse an existing memory
+store, set `SULCUS_MEMORY_DIR` to its path before starting the runtime. The
+naming migration does not move, delete, or change stored data.

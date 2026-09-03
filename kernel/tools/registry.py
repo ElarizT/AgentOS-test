@@ -1,4 +1,4 @@
-"""Deterministic registry for approved Agent OS tools."""
+"""Deterministic registry for approved Sulcus tools."""
 
 from __future__ import annotations
 

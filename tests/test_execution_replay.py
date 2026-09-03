@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 from textual.widgets import Static
 
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.events import RuntimeEvent, RuntimeEventLog
 from kernel.replay import (
     ReplayRecord,
@@ -32,8 +32,8 @@ def event(seconds: int, action: str, *, agent: str = "planner", metadata: dict |
     )
 
 
-def make_dashboard() -> AgentOSDashboard:
-    return AgentOSDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
+def make_dashboard() -> SulcusDashboard:
+    return SulcusDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
 
 
 def test_build_replay_session_from_runtime_event_log_orders_records_deterministically() -> None:

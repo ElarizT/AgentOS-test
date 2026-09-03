@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.process import ProcessRegistry
 from main import format_external_agent_run, is_external_agent_project_path
 from test_process_registry import FakeBus, FakeKernel, FakeMemory
@@ -25,7 +25,7 @@ def make_registry(root: Path) -> ProcessRegistry:
 def write_external_project(tmp_path, source: str, *, runtime: str = "python") -> Path:
     project = tmp_path / "external_agent"
     project.mkdir()
-    (project / "agentos.toml").write_text(
+    (project / "sulcus-agent.toml").write_text(
         (
             'name = "external_test"\n'
             'type = "basic"\n'
@@ -72,7 +72,7 @@ async def test_invalid_external_manifest_does_not_execute(tmp_path) -> None:
     project = write_external_project(
         tmp_path,
         (
-            "from agentos import AgentProcess\n\n"
+            "from sulcus import AgentProcess\n\n"
             f"open({str(marker)!r}, 'w').write('executed')\n\n"
             "class InvalidAgent(AgentProcess):\n"
             '    name = "InvalidAgent"\n'
@@ -91,7 +91,7 @@ async def test_external_agent_runtime_exception_is_captured(tmp_path) -> None:
     project = write_external_project(
         tmp_path,
         (
-            "from agentos import AgentProcess\n\n"
+            "from sulcus import AgentProcess\n\n"
             "class FailingExternalAgent(AgentProcess):\n"
             '    name = "FailingExternalAgent"\n\n'
             "    async def on_start(self):\n"
@@ -117,7 +117,7 @@ async def test_external_agent_runtime_exception_is_captured(tmp_path) -> None:
 
 
 def test_dashboard_external_completion_status_clears_demo_snapshots() -> None:
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=object(),
         bus=object(),
         memory=object(),
@@ -135,7 +135,7 @@ def test_dashboard_external_completion_status_clears_demo_snapshots() -> None:
 
 @pytest.mark.asyncio
 async def test_dashboard_status_bar_shows_external_agent_completion() -> None:
-    dashboard = AgentOSDashboard(
+    dashboard = SulcusDashboard(
         kernel=object(),
         bus=object(),
         memory=object(),

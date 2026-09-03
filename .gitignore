@@ -11,6 +11,8 @@ __pycache__/
 dist/
 build/
 .eggs/
+.sulcus/
+# Preserve exclusion of existing local memory data from before the naming migration.
 .agent_os/
 memory_store/
 *.sqlite

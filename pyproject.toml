@@ -3,12 +3,13 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sulcus-os"
+name = "sulcus"
 dynamic = ["version"]
-description = "Python APIs for the Sulcus OS agent runtime."
+description = "Python APIs for the Sulcus agent runtime."
 readme = "README.md"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
-license = "LicenseRef-Unlicensed"
+license = "Elastic-2.0"
 keywords = ["agents", "llm", "orchestration", "tools", "runtime"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -26,33 +27,37 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ElarizT/SulcusOS"
-Repository = "https://github.com/ElarizT/SulcusOS"
-Issues = "https://github.com/ElarizT/SulcusOS/issues"
+Homepage = "https://github.com/ElarizT/Sulcus"
+Repository = "https://github.com/ElarizT/Sulcus"
+Issues = "https://github.com/ElarizT/Sulcus/issues"
 
 [project.optional-dependencies]
 dashboard = [
     "rich>=13.7",
     "textual>=0.58",
 ]
-openai = ["openai>=1.30"]
-native-dev = ["maturin>=1.5"]
+openai = ["openai>=1.55.3", "httpx>=0.23"]
+native-dev = ["maturin>=1.9.3", "wasmtime>=20.0"]
 dev = [
     "build>=1.2",
-    "maturin>=1.5",
+    "maturin>=1.9.3",
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
+    "twine>=5.1",
+    "rich>=13.7",
+    "textual>=0.58",
+    "httpx>=0.23",
 ]
 
 [project.scripts]
-sulcus = "agentos.cli:main"
-sulcus-check = "agentos.cli:runtime_check_main"
+sulcus = "sulcus.cli:main"
+sulcus-check = "sulcus.cli:runtime_check_main"
 
 [tool.setuptools.dynamic]
-version = {attr = "agentos._version.__version__"}
+version = {attr = "sulcus._version.__version__"}
 
 [tool.setuptools.packages.find]
-include = ["agentos*", "kernel*", "examples.supervised_research_team*"]
+include = ["sulcus*", "kernel*", "examples.supervised_research_team*"]
 exclude = ["tests*", "docs*", "demos*"]
 
 [tool.setuptools.package-data]

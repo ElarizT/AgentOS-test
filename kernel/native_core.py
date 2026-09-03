@@ -1,4 +1,4 @@
-"""Compatibility boundary for the optional Rust ``agent_os_core`` extension."""
+"""Compatibility boundary for the optional Rust ``sulcus_core`` extension."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from types import ModuleType
 
 
 class NativeCoreUnavailableError(RuntimeError):
-    """Raised only when a caller invokes a native-only Sulcus OS capability."""
+    """Raised only when a caller invokes a native-only Sulcus capability."""
 
 
 class NativeCoreImportError(RuntimeError):
@@ -15,17 +15,17 @@ class NativeCoreImportError(RuntimeError):
 
 
 try:
-    import agent_os_core as _native_core
+    import sulcus_core as _native_core
 except ModuleNotFoundError as exc:
     # Do not hide ImportError/ModuleNotFoundError raised *inside* a present
     # extension: only the extension module itself is optional.
-    if exc.name != "agent_os_core":
+    if exc.name != "sulcus_core":
         raise
     _native_core: ModuleType | None = None
 except Exception as exc:
     raise NativeCoreImportError(
-        "Sulcus OS native core was found but could not be imported. "
-        "Check its binary/dependency installation and rerun `maturin develop`."
+        "Sulcus native core was found but could not be imported. "
+        "Check its binary/dependency installation and rerun `python -m maturin develop --locked` from the checkout's native/ directory."
     ) from exc
 
 
@@ -58,11 +58,11 @@ def require_native_core(feature: str | None = None) -> ModuleType:
     """Return the native module or raise an actionable capability error."""
     if _native_core is not None:
         return _native_core
-    feature_text = f"The {feature} requires `agent_os_core`." if feature else "This capability requires `agent_os_core`."
+    feature_text = f"The {feature} requires `sulcus_core`." if feature else "This capability requires `sulcus_core`."
     raise NativeCoreUnavailableError(
-        "Sulcus OS native core is not installed.\n"
+        "Sulcus native core is not installed.\n"
         f"{feature_text}\n\n"
-        "From the project root, run:\n"
-        "    maturin develop\n\n"
+        "From the checkout's native/ directory, run:\n"
+        "    python -m maturin develop --locked\n\n"
         "Python-only LLM, tool-runtime, and agent-tool-loop components remain available."
     )

@@ -1,6 +1,6 @@
-# Sulcus OS
+# Sulcus
 
-Sulcus OS is a v1.0 release-candidate agent runtime for building restart-safe, observable workflows with process-like agents, registered tools, approvals, permissions, and bounded execution.
+Sulcus is a v1.0 release-candidate agent runtime for building restart-safe, observable workflows with process-like agents, registered tools, approvals, permissions, and bounded execution.
 
 Agent libraries are good at describing what an agent should do. Sulcus exists to make the execution around that agent explicit: who owns it, which tools it may call, when a human must approve, what limits apply, what happened, and how a paused run can survive a restart. It is runtime infrastructure rather than a prompt, chain, graph, or multi-agent framework.
 
@@ -19,8 +19,14 @@ Publication is denied by default. Add `--parallel`, `--tight-limits`,
 
 ## Quick install
 
-Sulcus is currently installed from source and is not published to PyPI. Python
-3.10 or newer is supported.
+The intended published installation is:
+
+```bash
+python -m pip install sulcus
+```
+
+Sulcus is currently installed from source and is not yet published to PyPI.
+Python 3.10 or newer is supported.
 
 ```powershell
 py -m venv .venv
@@ -29,6 +35,15 @@ python -m pip install -e .
 sulcus --version
 sulcus check
 python examples\public_api_quickstart.py
+```
+
+The public import package is `sulcus`:
+
+```python
+import sulcus
+from sulcus import AgentToolLoop, ToolRegistry, ToolRuntime
+
+print(sulcus.__version__)
 ```
 
 The base install is Python-only and has no mandatory LLM SDK, dashboard, or
@@ -64,7 +79,7 @@ flowchart TD
     F -. "optional acceleration and native services" .-> G["Native Core"]
 ```
 
-Applications should import from `agentos` and its documented public submodules.
+Applications should import from `sulcus` and its documented public submodules.
 Modules under `kernel.*` are internal implementation and carry no external
 compatibility guarantee. See the [architecture guide](docs/architecture.md) for
 the process model, IPC, tool loop, approval lifecycle, checkpoints, events, and
@@ -85,8 +100,9 @@ Rust/Python boundary.
 | Native memory primitives and WASM sandbox | | ✓ |
 
 `sulcus check` reports the active capabilities. Python-only mode is a supported
-development path, not an error state. Build the optional `agent_os_core`
-extension with `maturin develop` only when using native-backed features.
+development path, not an error state. Build the optional `sulcus_core`
+extension from the `native/` directory with `python -m maturin develop --locked`
+only when using native-backed features.
 
 ## How Sulcus differs from agent frameworks
 
@@ -113,8 +129,8 @@ performance superiority over those projects.
 ## Maturity and limitations
 
 Sulcus 1.0.0rc1 is release-candidate software. The intended v1 stable surface is the
-top-level `agentos` package plus `agentos.runtime`, `agentos.tools`,
-`agentos.ipc`, and `agentos.native`. `agentos.llm` is an advanced public API
+top-level `sulcus` package plus `sulcus.runtime`, `sulcus.tools`,
+`sulcus.ipc`, and `sulcus.native`. `sulcus.llm` is an advanced public API
 that may evolve with documented migration guidance. `kernel.*` is internal.
 
 Current checkpoints are local version-1 JSON files: they contain sensitive
@@ -141,13 +157,14 @@ Native development is optional:
 
 ```powershell
 python -m pip install -e .[native-dev]
-maturin develop
+cd native
+python -m maturin develop --locked
+cd ..
 cargo check
 ```
 
-## License status
+## License
 
-**No open-source license has been granted.** Package metadata declares
-`LicenseRef-Unlicensed`. The repository is source-visible, but you must not
-assume rights to use, copy, modify, or redistribute it beyond applicable law or
-an explicit grant from the owner.
+Sulcus is source-available under the Elastic License 2.0 (ELv2). ELv2 is not
+an OSI-approved open-source license. See [LICENSE](LICENSE) for the complete
+license terms.

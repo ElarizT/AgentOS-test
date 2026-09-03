@@ -1,13 +1,13 @@
-"""Stable public Python API for Sulcus OS (imported as ``agentos``)."""
+"""Stable public Python API for Sulcus (imported as ``sulcus``)."""
 
-from agentos.loader import (
+from sulcus.loader import (
     AgentPermissions,
     ExternalAgentManifest,
     inspect_external_agent,
     load_external_agent,
 )
-from agentos._version import __version__
-from agentos.ipc import (
+from sulcus._version import __version__
+from sulcus.ipc import (
     ControlMessage,
     ErrorMessage,
     EventMessage,
@@ -20,7 +20,7 @@ from agentos.ipc import (
     make_message,
     parse_message,
 )
-from agentos.native import (
+from sulcus.native import (
     NativeCoreUnavailableError,
     NativeCoreImportError,
     RuntimeCapabilities,
@@ -28,7 +28,7 @@ from agentos.native import (
     native_core_available,
     require_native_core,
 )
-from agentos.runtime import (
+from sulcus.runtime import (
     AgentToolLoop,
     AgentToolLoopCheckpoint,
     AgentToolLoopConfig,
@@ -38,7 +38,7 @@ from agentos.runtime import (
     ToolPermissionPolicy,
     ToolResourceLimits,
 )
-from agentos.tools import ToolRegistry, ToolRuntime
+from sulcus.tools import ToolRegistry, ToolRuntime
 from kernel.process import AgentProcess, ExecutionMode, RestartPolicy, SupervisorStrategy
 
 __all__ = [

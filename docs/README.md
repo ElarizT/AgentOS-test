@@ -1,4 +1,4 @@
-# Sulcus OS documentation
+# Sulcus documentation
 
 Start here if this is your first visit:
 
@@ -26,5 +26,5 @@ Start here if this is your first visit:
 - [Interactive shell and execution modes](interactive_shell.md)
 - [Windows native development](windows_dev_setup.md)
 
-The project import package is named `agentos`. New application code should use
-documented `agentos.*` imports and treat `kernel.*` as internal.
+The project import package is named `sulcus`. New application code should use
+documented `sulcus.*` imports and treat `kernel.*` as internal.

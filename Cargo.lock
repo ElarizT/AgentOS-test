@@ -12,18 +12,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "agent_os_core"
-version = "0.1.0"
-dependencies = [
- "pyo3",
- "pyo3-async-runtimes",
- "serde_json",
- "tokio",
- "wasmtime",
- "wasmtime-wasi",
-]
-
-[[package]]
 name = "ahash"
 version = "0.8.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1569,6 +1557,18 @@ name = "stable_deref_trait"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6ce2be8dc25455e1f91df71bfa12ad37d7af1092ae736f3a6cd0e37bc7810596"
+
+[[package]]
+name = "sulcus_core"
+version = "0.1.0"
+dependencies = [
+ "pyo3",
+ "pyo3-async-runtimes",
+ "serde_json",
+ "tokio",
+ "wasmtime",
+ "wasmtime-wasi",
+]
 
 [[package]]
 name = "syn"

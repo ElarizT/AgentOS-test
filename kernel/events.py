@@ -1,4 +1,4 @@
-"""Structured runtime events for Agent OS observability."""
+"""Structured runtime events for Sulcus observability."""
 
 from __future__ import annotations
 

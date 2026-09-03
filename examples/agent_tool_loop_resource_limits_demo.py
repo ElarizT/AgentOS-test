@@ -5,10 +5,10 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from agentos.runtime import AgentToolLoop, AgentToolLoopConfig, ToolResourceLimits
+from sulcus.runtime import AgentToolLoop, AgentToolLoopConfig, ToolResourceLimits
 from kernel.events import RuntimeEvent, RuntimeEventLog
-from agentos.llm import LLMRequest, LLMResponse, LLMRuntime, LLMToolCall
-from agentos.tools import ToolRegistry, ToolRuntime
+from sulcus.llm import LLMRequest, LLMResponse, LLMRuntime, LLMToolCall
+from sulcus.tools import ToolRegistry, ToolRuntime
 
 
 TIMELINE_EVENT_TYPES = {

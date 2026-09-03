@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 from textual.widgets import Static
 
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.events import RuntimeEvent
 from kernel.metrics import AgentMetrics, build_agent_metrics_snapshot, format_agent_metric, render_agent_metrics
 
@@ -22,8 +22,8 @@ def lifecycle_event(event_type: str, *, seconds: float, metadata: dict) -> Runti
     )
 
 
-def make_dashboard() -> AgentOSDashboard:
-    return AgentOSDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
+def make_dashboard() -> SulcusDashboard:
+    return SulcusDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
 
 
 def test_format_agent_metric_is_compact_and_stable() -> None:

@@ -1,4 +1,4 @@
-"""Explicit runtime for executing registered Agent OS tools."""
+"""Explicit runtime for executing registered Sulcus tools."""
 
 from __future__ import annotations
 

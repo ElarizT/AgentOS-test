@@ -1,6 +1,6 @@
 # Interactive Shell MVP
 
-Agent OS boots with only the control-plane mailboxes by default. Standalone
+Sulcus boots with only the control-plane mailboxes by default. Standalone
 agent processes are loaded from the dashboard prompt.
 
 ## Commands
@@ -11,7 +11,7 @@ agent processes are loaded from the dashboard prompt.
   table, and kernel capabilities.
 - `help` prints the command summary in the dashboard log.
 
-`run` is confined to `AGENT_OS_PROCESS_ROOT`, which defaults to the current
+`run` is confined to `SULCUS_PROCESS_ROOT`, which defaults to the current
 workspace. Paths outside that root are rejected after resolution, so `..`
 traversal and arbitrary absolute paths are not accepted.
 
@@ -20,18 +20,18 @@ traversal and arbitrary absolute paths are not accepted.
 The default mode is trusted local development:
 
 ```powershell
-$env:AGENT_OS_PROCESS_ISOLATION = "in-process"
+$env:SULCUS_PROCESS_ISOLATION = "in-process"
 ```
 
 To load dynamic agents in separate spawned child processes:
 
 ```powershell
-$env:AGENT_OS_PROCESS_ISOLATION = "process"
+$env:SULCUS_PROCESS_ISOLATION = "process"
 ```
 
 Process mode uses Windows-safe `multiprocessing` spawn semantics, no
 `shell=True`, a startup readiness handshake, and a timeout controlled by
-`AGENT_OS_PROCESS_STARTUP_TIMEOUT` (default `5.0` seconds). This is process
+`SULCUS_PROCESS_STARTUP_TIMEOUT` (default `5.0` seconds). This is process
 isolation, not a full security sandbox.
 
 ## Agent Script Shape
@@ -39,7 +39,7 @@ isolation, not a full security sandbox.
 Scripts should define an `AgentProcess` subclass:
 
 ```python
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 
 class EchoAgent(AgentProcess):
@@ -51,5 +51,5 @@ class EchoAgent(AgentProcess):
 ```
 
 Imports are intentionally restricted. New scripts should use
-`from agentos import AgentProcess`. The legacy
+`from sulcus import AgentProcess`. The legacy
 `from kernel.process import AgentProcess` import remains supported.

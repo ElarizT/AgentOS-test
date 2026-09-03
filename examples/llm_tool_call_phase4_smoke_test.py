@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from agentos.llm import (
+from sulcus.llm import (
     LLMRuntime,
     OpenAICompatibleProvider,
     LLMToolDefinition,
@@ -11,9 +11,9 @@ from agentos.llm import (
 
 
 def main() -> None:
-    api_key = os.environ.get("AGENTOS_LLM_API_KEY")
+    api_key = os.environ.get("SULCUS_LLM_API_KEY")
     if not api_key:
-        raise RuntimeError("Missing AGENTOS_LLM_API_KEY")
+        raise RuntimeError("Missing SULCUS_LLM_API_KEY")
 
     provider = OpenAICompatibleProvider(
         provider_name="openrouter",

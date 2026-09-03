@@ -1,4 +1,4 @@
-"""Safe registered tool execution runtime for Agent OS."""
+"""Safe registered tool execution runtime for Sulcus."""
 
 from kernel.tools.registry import ToolRegistry
 from kernel.tools.runtime import ToolRuntime

@@ -1,6 +1,6 @@
 # Supervisor Trees
 
-Agent OS supervision trees provide Erlang/OTP-style parent-child ownership on
+Sulcus supervision trees provide Erlang/OTP-style parent-child ownership on
 top of the existing process registry. The registry remains the authority for
 startup, crash detection, transactional cleanup, and restarts.
 
@@ -30,7 +30,7 @@ Supervisors support:
 Agent classes configure their strategy with:
 
 ```python
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 
 class Coordinator(AgentProcess):

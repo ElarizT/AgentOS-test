@@ -1,4 +1,8 @@
-# SulcusOS demo polish QA
+# Sulcus demo polish QA
+
+This companion describes the pre-migration media preserved in the
+[historical archive](archive/README.md). Its product terminology has been
+updated to Sulcus; the archived recordings retain their original visuals.
 
 ## Problems found in the existing render
 

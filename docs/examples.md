@@ -15,7 +15,7 @@ All paths are relative to the repository root.
 | Resource limits | `python examples\agent_tool_loop_resource_limits_demo.py` | ✓ | — | — |
 | Resumable approval | `python examples\agent_tool_loop_approval_resume_demo.py` | ✓ | — | — |
 | Persistent checkpoint | `python -m examples.agent_tool_loop_persistent_checkpoint_demo` | ✓ | — | — |
-| OpenAI-compatible smoke test | `python examples\agent_tool_loop_phase6_smoke_test.py` | | `AGENTOS_LLM_API_KEY` | — |
+| OpenAI-compatible smoke test | `python examples\agent_tool_loop_phase6_smoke_test.py` | | `SULCUS_LLM_API_KEY` | — |
 | Flagship demo | `sulcus demo research-team` | ✓ | — | — |
 | Full process dashboard | `python main.py` | ✓ | — | ✓ plus dashboard extra |
 

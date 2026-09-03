@@ -5,11 +5,11 @@ from pathlib import Path
 
 import pytest
 
-from agentos.checkpoints import CheckpointError, inspect_checkpoint, load_checkpoint, resume_checkpoint, save_checkpoint
-from agentos.cli import main as cli_main
-from agentos.llm import LLMResponse, LLMRuntime, LLMToolCall, LLMToolDefinition
-from agentos.runtime import AgentToolLoop, ToolApprovalDecision, ToolResourceLimits
-from agentos.tools import ToolRegistry, ToolRuntime
+from sulcus.checkpoints import CheckpointError, inspect_checkpoint, load_checkpoint, resume_checkpoint, save_checkpoint
+from sulcus.cli import main as cli_main
+from sulcus.llm import LLMResponse, LLMRuntime, LLMToolCall, LLMToolDefinition
+from sulcus.runtime import AgentToolLoop, ToolApprovalDecision, ToolResourceLimits
+from sulcus.tools import ToolRegistry, ToolRuntime
 from tests.test_agent_tool_loop import ScriptedProvider, final_response, tool_response
 
 

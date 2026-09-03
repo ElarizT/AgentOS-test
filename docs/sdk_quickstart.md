@@ -1,8 +1,8 @@
-# Agent OS SDK Quickstart
+# Sulcus SDK Quickstart
 
-Build and run your first Agent OS process in about 15 minutes.
+Build and run your first Sulcus process in about 15 minutes.
 
-## 1. Start Agent OS
+## 1. Start Sulcus
 
 Set up the project and native extension as described in
 `docs/windows_dev_setup.md`, then launch the dashboard:
@@ -25,14 +25,14 @@ help
 Create a Python file under the workspace root:
 
 ```python
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 
 class HelloAgent(AgentProcess):
     name = "HelloAgent"
 
     async def on_start(self) -> None:
-        self.remember({"message": "Hello from Agent OS"}, tags=["hello"])
+        self.remember({"message": "Hello from Sulcus"}, tags=["hello"])
 ```
 
 Run it from the dashboard:
@@ -42,7 +42,7 @@ run examples/hello_agent.py
 ps
 ```
 
-`from agentos import AgentProcess` is the public SDK import. Existing agents
+`from sulcus import AgentProcess` is the public SDK import. Existing agents
 that use `from kernel.process import AgentProcess` remain supported for
 backward compatibility.
 
@@ -51,7 +51,7 @@ backward compatibility.
 Override the hooks you need:
 
 ```python
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 
 class LifecycleAgent(AgentProcess):
@@ -105,7 +105,7 @@ Trusted agents can store and recall process-local records:
 
 ```python
 self.remember(
-    {"fact": "Agent OS memory is process-local"},
+    {"fact": "Sulcus memory is process-local"},
     importance=0.8,
     tags=["project"],
 )
@@ -122,7 +122,7 @@ See `examples/memory_agent.py`.
 A trusted process can launch supervised children:
 
 ```python
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 
 class Supervisor(AgentProcess):
@@ -153,14 +153,14 @@ ps
 Trusted local mode is the default:
 
 ```powershell
-$env:AGENT_OS_PROCESS_ISOLATION = "in-process"
+$env:SULCUS_PROCESS_ISOLATION = "in-process"
 python main.py
 ```
 
 Use spawned subprocess isolation when agents should execute separately:
 
 ```powershell
-$env:AGENT_OS_PROCESS_ISOLATION = "process"
+$env:SULCUS_PROCESS_ISOLATION = "process"
 python main.py
 ```
 
@@ -183,7 +183,7 @@ startup memory and request/reply handling without extra framework code.
 | --- | --- |
 | `agent script must define an AgentProcess subclass` | Add `class MyAgent(AgentProcess): ...` |
 | `agent process must define a unique non-empty name` | Add a class-level name such as `name = "MyAgent"` |
-| `agent script import is not allowed` | Keep agent scripts dependency-light. Start with `from agentos import AgentProcess`. |
+| `agent script import is not allowed` | Keep agent scripts dependency-light. Start with `from sulcus import AgentProcess`. |
 | `mailbox_size must be a positive integer` | Set a positive integer, for example `mailbox_size = 128`. |
 | `token_budget must be a positive integer` | Set a positive integer, for example `token_budget = 8000`. |
 | `agent process crashed during startup` | Check the underlying validation or `on_start()` traceback. In isolated mode the host reports the child failure. |
@@ -192,7 +192,7 @@ startup memory and request/reply handling without extra framework code.
 
 ## Public SDK Surface
 
-The stable `agentos` facade exports:
+The stable `sulcus` facade exports:
 
 - `AgentProcess`
 - `ExecutionMode`
@@ -202,4 +202,4 @@ The stable `agentos` facade exports:
 - `make_message`, `parse_message`, and `make_error`
 
 Kernel modules remain available for internal use and backward compatibility,
-but new agent code should import from `agentos`.
+but new agent code should import from `sulcus`.

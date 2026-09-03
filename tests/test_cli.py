@@ -4,8 +4,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-from agentos import __version__
-from agentos.cli import main, runtime_check_main
+from sulcus import __version__
+from sulcus.cli import main, runtime_check_main
 
 
 def test_version_uses_single_version_source(capsys) -> None:
@@ -19,7 +19,7 @@ def test_version_uses_single_version_source(capsys) -> None:
 def test_check_is_successful_without_native_core(capsys) -> None:
     assert main(["check"]) == 0
     output = capsys.readouterr().out
-    assert f"Sulcus OS {__version__}" in output
+    assert f"Sulcus {__version__}" in output
     assert "Python runtime: available" in output
     assert "Native core:" in output
     assert "Dashboard:" in output
@@ -27,8 +27,8 @@ def test_check_is_successful_without_native_core(capsys) -> None:
 
 
 def test_compatibility_check_entry_point(capsys) -> None:
-    assert runtime_check_main() == 0
-    assert "Sulcus OS" in capsys.readouterr().out
+    assert runtime_check_main([]) == 0
+    assert "Sulcus" in capsys.readouterr().out
 
 
 def test_demo_options_map_to_existing_callable(capsys) -> None:
@@ -46,7 +46,7 @@ def test_demo_approval_maps_to_simulated_publish(capsys) -> None:
 
 def test_conflicting_options_are_clear_usage_errors_without_traceback() -> None:
     completed = subprocess.run(
-        [sys.executable, "-m", "agentos.cli", "demo", "research-team", "--parallel", "--sequential"],
+        [sys.executable, "-m", "sulcus.cli", "demo", "research-team", "--parallel", "--sequential"],
         text=True,
         capture_output=True,
     )
@@ -57,7 +57,7 @@ def test_conflicting_options_are_clear_usage_errors_without_traceback() -> None:
 
 def test_unknown_demo_is_usage_error_without_traceback() -> None:
     completed = subprocess.run(
-        [sys.executable, "-m", "agentos.cli", "demo", "unknown"],
+        [sys.executable, "-m", "sulcus.cli", "demo", "unknown"],
         text=True,
         capture_output=True,
     )
@@ -93,3 +93,14 @@ def test_demo_explicit_mode_overrides_environment_and_file(monkeypatch, tmp_path
     monkeypatch.setenv("SULCUS_EXECUTION_MODE", "parallel")
     assert main(["demo", "research-team", "--sequential"]) == 0
     assert "FINAL REPORT" in capsys.readouterr().out
+
+
+def test_check_entry_point_has_branded_help(capsys) -> None:
+    import pytest
+
+    with pytest.raises(SystemExit) as caught:
+        runtime_check_main(["--help"])
+    assert caught.value.code == 0
+    output = capsys.readouterr().out
+    assert "usage: sulcus-check" in output
+    assert "Report Sulcus runtime capabilities." in output

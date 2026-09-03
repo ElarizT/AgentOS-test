@@ -1,11 +1,18 @@
 # Installation
 
-Sulcus OS uses `sulcus-os` as its Python distribution name and `agentos` as
-its backward-compatible import package. Version 1.0.0rc1 is a release
-candidate available from source or locally built artifacts; it is not
-published to PyPI.
-The source distribution currently declares `LicenseRef-Unlicensed`; obtain a
-license grant from the repository owner before redistributing it.
+Sulcus uses `sulcus` as its Python distribution and public import package.
+Version 1.0.0rc1 is a release candidate available from source or locally
+built artifacts; it is not published to PyPI yet.
+
+Once published, install it with:
+
+```bash
+python -m pip install sulcus
+```
+
+Sulcus is source-available under the Elastic License 2.0 (ELv2). ELv2 is not
+an OSI-approved open-source license. See [LICENSE](../LICENSE) for the complete
+license terms.
 
 ## Python-only installation
 
@@ -58,14 +65,18 @@ pip install -e .[openai]       # OpenAI-compatible provider SDK
 pip install -e .[dashboard]    # Textual/Rich dashboard dependencies
 pip install -e .[dev]          # pytest, build, and native development tools
 pip install -e .[native-dev]
-maturin develop                # build/install agent_os_core explicitly
+cd native
+python -m maturin develop --locked
+cd ..
 ```
 
 For a full local development environment:
 
 ```powershell
 pip install -e .[dev,dashboard,openai,native-dev]
-maturin develop
+cd native
+python -m maturin develop --locked
+cd ..
 ```
 
 ## Build distributions
@@ -77,10 +88,24 @@ python -m build
 This produces a Python-only wheel and source distribution in `dist/`; neither
 base artifact compiles or bundles the optional Rust extension. To test a wheel
 from outside the source tree, create a fresh environment and install the wheel
-file with `pip install dist\sulcus_os-<version>-py3-none-any.whl`.
+file with `pip install dist\sulcus-<version>-py3-none-any.whl`.
 
 ## Troubleshooting
 
 See the dedicated [troubleshooting guide](troubleshooting.md) for native-core,
 Maturin, optional OpenAI SDK, configuration, checkpoint, CLI, and editable
 install failures.
+
+## Optional native distribution boundary
+
+`pip install sulcus` never installs the Rust extension. The native development
+extra supplies Maturin and the Python `wasmtime` WAT assembler; Rust/Cargo must
+be installed separately. Build from a Git checkout's `native/` directory to
+install `sulcus-core` alongside `sulcus`. Never run the native build from the
+repository root, whose metadata belongs to the Python-only distribution.
+Native sources and tooling are intentionally absent from the normal sdist.
+See [local native development](../native/README.md).
+
+The `dev` extra includes the dashboard and HTTP-client dependencies needed by
+the existing test suite. The `openai` extra explicitly declares both the SDK
+and the HTTP client used by the synchronous fallback and async adapter.

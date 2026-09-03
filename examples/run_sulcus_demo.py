@@ -44,14 +44,14 @@ class DemoBus:
 
 
 async def run_demo() -> None:
-    with tempfile.TemporaryDirectory(prefix="agent-os-demo-") as memory_dir:
+    with tempfile.TemporaryDirectory(prefix="sulcus-demo-") as memory_dir:
         memory = PersistentMemoryManager(Path(memory_dir))
         registry = ProcessRegistry(kernel=DemoKernel(), bus=DemoBus(), memory=memory)
-        supervisor = await registry.run_path("examples/agent_os_demo_supervisor.py")
+        supervisor = await registry.run_path("examples/sulcus_demo_supervisor.py")
 
         deadline = asyncio.get_running_loop().time() + 8.0
         while asyncio.get_running_loop().time() < deadline:
-            records = memory.recall("AgentOSDemoCoordinator", tags=["self-healing"])
+            records = memory.recall("SulcusDemoCoordinator", tags=["self-healing"])
             if records:
                 break
             await asyncio.sleep(0.1)
@@ -59,7 +59,7 @@ async def run_demo() -> None:
             raise RuntimeError("demo timed out before the restarted crash probe replied")
 
         rows = await registry.list_processes()
-        durable = memory.recall("AgentOSDemoMemory", tags=["durable-fact"])
+        durable = memory.recall("SulcusDemoMemory", tags=["durable-fact"])
         summary = {
             "supervisor_pid": supervisor.pid,
             "self_healing": records[0]["content"],

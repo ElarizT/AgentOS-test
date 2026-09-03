@@ -50,7 +50,7 @@ ToolInput = LLMToolDefinition | Mapping[str, Any]
 
 
 class LLMRuntime:
-    """Stable Agent OS interface for synchronous LLM provider calls."""
+    """Stable Sulcus interface for synchronous LLM provider calls."""
 
     def __init__(
         self,

@@ -1,8 +1,8 @@
 from kernel.process import AgentProcess
 
 
-class AgentOSDemoSupervisor(AgentProcess):
-    name = "AgentOSDemoSupervisor"
+class SulcusDemoSupervisor(AgentProcess):
+    name = "SulcusDemoSupervisor"
     capabilities = ("demo-supervision",)
     supervisor_strategy = "one_for_one"
     max_restarts = 3
@@ -10,10 +10,10 @@ class AgentOSDemoSupervisor(AgentProcess):
     restart_backoff_seconds = 0.2
 
     async def on_start(self) -> None:
-        memory_pid = await self.spawn_child("examples/agent_os_demo_memory.py")
-        worker_pid = await self.spawn_child("examples/agent_os_demo_worker.py", execution_mode="isolated")
-        crash_pid = await self.spawn_child("examples/agent_os_demo_crash_probe.py", execution_mode="isolated")
-        coordinator_pid = await self.spawn_child("examples/agent_os_demo_coordinator.py")
+        memory_pid = await self.spawn_child("examples/sulcus_demo_memory.py")
+        worker_pid = await self.spawn_child("examples/sulcus_demo_worker.py", execution_mode="isolated")
+        crash_pid = await self.spawn_child("examples/sulcus_demo_crash_probe.py", execution_mode="isolated")
+        coordinator_pid = await self.spawn_child("examples/sulcus_demo_coordinator.py")
         self.coordinator_pid = coordinator_pid
         self.send(
             coordinator_pid,
@@ -33,7 +33,7 @@ class AgentOSDemoSupervisor(AgentProcess):
         self.remember({"supervision_event": message.payload}, 2, tags=["demo", "supervision"])
         if message.payload.get("event") == "child_restarted":
             details = message.payload.get("details", {})
-            if details.get("child_name") == "AgentOSDemoCrashProbe":
+            if details.get("child_name") == "SulcusDemoCrashProbe":
                 self.send(
                     self.coordinator_pid,
                     {"cmd": "crash_probe_restarted", "crash_pid": details["new_pid"]},

@@ -2,7 +2,7 @@
 
 This flagship example shows Sulcus as a supervised multi-agent runtime while
 remaining deterministic and completely offline. It needs no API key, network,
-Rust toolchain, or `agent_os_core`.
+Rust toolchain, or `sulcus_core`.
 
 ```powershell
 python -m examples.supervised_research_team.demo

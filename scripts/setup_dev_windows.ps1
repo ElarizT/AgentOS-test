@@ -31,8 +31,17 @@ if (-not $SkipMaturinDevelop) {
     if (-not (Get-Command cargo -ErrorAction SilentlyContinue)) {
         throw "cargo was not found. Install the Rust stable toolchain before running maturin develop."
     }
-    & $PythonInVenv -m maturin develop
+    $PreviousVenv = $env:VIRTUAL_ENV
+    $env:VIRTUAL_ENV = [string]$VenvPath
+    Push-Location (Join-Path $RepoRoot "native")
+    try {
+        & $PythonInVenv -m maturin develop --locked
+        if ($LASTEXITCODE -ne 0) { throw "Native build failed." }
+    } finally {
+        Pop-Location
+        $env:VIRTUAL_ENV = $PreviousVenv
+    }
 }
 
-Write-Host "Agent OS dev environment is ready."
+Write-Host "Sulcus dev environment is ready."
 Write-Host "Activate it with: .\.venv\Scripts\Activate.ps1"

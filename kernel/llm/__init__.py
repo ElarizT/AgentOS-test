@@ -1,4 +1,4 @@
-"""Stable provider-neutral LLM Runtime Layer for Agent OS."""
+"""Stable provider-neutral LLM Runtime Layer for Sulcus."""
 
 from importlib import import_module
 from typing import Any

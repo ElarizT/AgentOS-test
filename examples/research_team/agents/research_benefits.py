@@ -1,6 +1,6 @@
 from dataclasses import asdict
 
-from agentos import AgentProcess
+from sulcus import AgentProcess
 
 from ..contracts import ResearchAssignment, ResearchResult
 from ..data import BENEFITS

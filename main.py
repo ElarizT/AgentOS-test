@@ -12,8 +12,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from agentos.loader import inspect_external_agent
-from kernel.dashboard import SHELL_PROMPT, AgentOSDashboard
+from sulcus.loader import inspect_external_agent
+from kernel.dashboard import SHELL_PROMPT, SulcusDashboard
 from kernel.memory_store import PersistentMemoryManager
 from kernel.native_core import require_native_core
 from kernel.process import ProcessRegistry
@@ -40,20 +40,20 @@ except ImportError:
     compile_agent_script = None
 
 
-AGENTS_MANIFEST_PATH = Path(os.getenv("AGENT_OS_AGENTS_MANIFEST", "agents.json"))
+AGENTS_MANIFEST_PATH = Path(os.getenv("SULCUS_AGENTS_MANIFEST", "agents.json"))
 AGENT_RUNTIME_LOG = Path("agent_runtime.log")
 SYSTEM_AGENT_NAME = "System"
 ORCHESTRATOR_AGENT_NAME = "Orchestrator"
-DEFAULT_MAILBOX_SIZE = int(os.getenv("AGENT_OS_MAILBOX_SIZE", "1024"))
-DEFAULT_AGENT_TOKEN_BUDGET = int(os.getenv("AGENT_OS_AGENT_TOKEN_BUDGET", "8000"))
-DEFAULT_SANDBOX_FUEL = int(os.getenv("AGENT_OS_SANDBOX_FUEL", "50000"))
-HOST_IDLE_SECONDS = float(os.getenv("AGENT_OS_HOST_IDLE_SECONDS", "0.25"))
-HOST_RETRY_SECONDS = float(os.getenv("AGENT_OS_HOST_RETRY_SECONDS", "3.0"))
-ENABLE_LEGACY_MANIFEST_AGENTS = os.getenv("AGENT_OS_ENABLE_LEGACY_AGENTS", "0") == "1"
-AGENT_PROCESS_ROOT = Path(os.getenv("AGENT_OS_PROCESS_ROOT", ".")).resolve()
-AGENT_PROCESS_ISOLATION = os.getenv("AGENT_OS_PROCESS_ISOLATION", "in-process")
-AGENT_PROCESS_STARTUP_TIMEOUT = float(os.getenv("AGENT_OS_PROCESS_STARTUP_TIMEOUT", "5.0"))
-AGENT_OS_MEMORY_DIR = Path(os.getenv("AGENT_OS_MEMORY_DIR", ".agent_os/memory"))
+DEFAULT_MAILBOX_SIZE = int(os.getenv("SULCUS_MAILBOX_SIZE", "1024"))
+DEFAULT_AGENT_TOKEN_BUDGET = int(os.getenv("SULCUS_AGENT_TOKEN_BUDGET", "8000"))
+DEFAULT_SANDBOX_FUEL = int(os.getenv("SULCUS_SANDBOX_FUEL", "50000"))
+HOST_IDLE_SECONDS = float(os.getenv("SULCUS_HOST_IDLE_SECONDS", "0.25"))
+HOST_RETRY_SECONDS = float(os.getenv("SULCUS_HOST_RETRY_SECONDS", "3.0"))
+ENABLE_LEGACY_MANIFEST_AGENTS = os.getenv("SULCUS_ENABLE_LEGACY_AGENTS", "0") == "1"
+AGENT_PROCESS_ROOT = Path(os.getenv("SULCUS_PROCESS_ROOT", ".")).resolve()
+AGENT_PROCESS_ISOLATION = os.getenv("SULCUS_PROCESS_ISOLATION", "in-process")
+AGENT_PROCESS_STARTUP_TIMEOUT = float(os.getenv("SULCUS_PROCESS_STARTUP_TIMEOUT", "5.0"))
+SULCUS_MEMORY_DIR = Path(os.getenv("SULCUS_MEMORY_DIR", ".sulcus/memory"))
 
 COMPILER_RULES = (
     "CRITICAL COMPILER RULES:\n"
@@ -80,7 +80,7 @@ DEFAULT_AGENTS_MANIFEST: dict[str, Any] = {
         {
             "name": "CodeExecutionAgent",
             "capabilities": ["codegen", "compute", "execute", "math"],
-            "system_prompt": "You specialize in producing tiny deterministic Python functions for the Agent OS WASM sandbox.",
+            "system_prompt": "You specialize in producing tiny deterministic Python functions for the Sulcus WASM sandbox.",
         },
     ]
 }
@@ -176,10 +176,10 @@ def build_llm_config() -> LLMConfig:
         raise RuntimeError("kernel.llm could not be imported")
 
     return LLMConfig(
-        provider=os.getenv("AGENT_OS_LLM_PROVIDER", "openai"),
-        model_name=os.getenv("AGENT_OS_LLM_MODEL", "gemini-2.5-flash-lite"),
-        api_key=os.getenv("AGENT_OS_LLM_API_KEY") or os.getenv("OPENAI_API_KEY"),
-        base_url=os.getenv("AGENT_OS_LLM_BASE_URL"),
+        provider=os.getenv("SULCUS_LLM_PROVIDER", "openai"),
+        model_name=os.getenv("SULCUS_LLM_MODEL", "gemini-2.5-flash-lite"),
+        api_key=os.getenv("SULCUS_LLM_API_KEY") or os.getenv("OPENAI_API_KEY"),
+        base_url=os.getenv("SULCUS_LLM_BASE_URL"),
     )
 
 
@@ -209,7 +209,7 @@ def load_agent_manifest(path: Path = AGENTS_MANIFEST_PATH) -> list[AgentSpec]:
         if not name:
             raise ValueError(f"agent spec at index {index} is missing name")
         if name in {SYSTEM_AGENT_NAME, ORCHESTRATOR_AGENT_NAME}:
-            raise ValueError(f"'{name}' is reserved by the Agent OS control plane")
+            raise ValueError(f"'{name}' is reserved by the Sulcus control plane")
         if name in seen_names:
             raise ValueError(f"duplicate agent name '{name}' in manifest")
         if not system_prompt:
@@ -288,7 +288,7 @@ def score_capability_match(request_tokens: set[str], capability: str) -> int:
 def build_agent_system_prompt(agent_name: str, system_prompt: str, capabilities: tuple[str, ...]) -> str:
     return (
         f"{system_prompt}\n\n"
-        "You are running as a dynamically registered Agent OS runtime host.\n"
+        "You are running as a dynamically registered Sulcus runtime host.\n"
         f"Agent name: {agent_name}\n"
         f"Declared routing capabilities: {', '.join(capabilities)}\n\n"
         "When a task is routed to you, answer with the smallest useful sandbox program. "
@@ -525,7 +525,7 @@ async def orchestration_router(
 
 
 async def optional_stdin_ingress(bus: NativeIPCBus, stop_event: asyncio.Event) -> None:
-    if os.getenv("AGENT_OS_ENABLE_STDIN", "0") != "1":
+    if os.getenv("SULCUS_ENABLE_STDIN", "0") != "1":
         await stop_event.wait()
         return
 
@@ -558,7 +558,7 @@ async def drain_mailbox(bus: NativeIPCBus, agent_name: str, timeout: float = 0.0
 
 def seed_boot_task(bus: NativeIPCBus, registry: DynamicAgentRegistry) -> None:
     task = os.getenv(
-        "AGENT_OS_BOOT_TASK",
+        "SULCUS_BOOT_TASK",
         "Calculate the 10th Fibonacci number using a sandbox-safe Python run function.",
     )
     bus.send_message(
@@ -609,7 +609,7 @@ async def run_dashboard() -> None:
         legacy_registry = DynamicAgentRegistry(agent_specs)
     kernel = RustKernel()
     bus = create_bus(kernel)
-    memory = PersistentMemoryManager(memory_dir=AGENT_OS_MEMORY_DIR)
+    memory = PersistentMemoryManager(memory_dir=SULCUS_MEMORY_DIR)
     sandbox = WasmSandboxManager()
     if legacy_registry is not None:
         register_runtime_agents(legacy_registry, kernel, bus, memory)
@@ -626,7 +626,7 @@ async def run_dashboard() -> None:
         execution_mode="isolated" if AGENT_PROCESS_ISOLATION == "process" else "in-process",
         startup_timeout_seconds=AGENT_PROCESS_STARTUP_TIMEOUT,
     )
-    app: AgentOSDashboard
+    app: SulcusDashboard
 
     async def handle_shell_command(command: str) -> str:
         command_words = command.split(maxsplit=1)
@@ -713,7 +713,7 @@ async def run_dashboard() -> None:
 
         raise ValueError("unknown command; try: help")
 
-    app = AgentOSDashboard(
+    app = SulcusDashboard(
         kernel=kernel,
         bus=bus,
         memory=memory,

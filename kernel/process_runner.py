@@ -13,7 +13,7 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any
 
-from kernel.process import AgentMessage, AgentProcess, PUBLIC_AGENTOS_IMPORTS
+from kernel.process import AgentMessage, AgentProcess, PUBLIC_SULCUS_IMPORTS
 
 
 @dataclass
@@ -122,7 +122,7 @@ def _apply_minimal_environment(environment: dict[str, str]) -> None:
 
 
 def _load_process(path: Path) -> AgentProcess:
-    module_name = f"agent_os_isolated_{path.stem}_{abs(hash(path))}"
+    module_name = f"sulcus_isolated_{path.stem}_{abs(hash(path))}"
     spec = importlib.util.spec_from_file_location(module_name, path)
     if spec is None or spec.loader is None:
         raise ValueError(f"could not load Python module from {path}")
@@ -156,16 +156,16 @@ def _preflight_source(path: Path) -> None:
             names = ", ".join(alias.name for alias in node.names)
             raise ValueError(
                 f"agent script import is not allowed: import {names}. "
-                "Use 'from agentos import AgentProcess'; additional imports are disabled for agent scripts."
+                "Use 'from sulcus import AgentProcess'; additional imports are disabled for agent scripts."
             )
         if isinstance(node, ast.ImportFrom):
             module = node.module or ""
             imported_names = {alias.name for alias in node.names}
-            allowed_names = PUBLIC_AGENTOS_IMPORTS if module == "agentos" else {"AgentProcess"}
-            if module not in {"agentos", "kernel.process"} or imported_names - allowed_names:
+            allowed_names = PUBLIC_SULCUS_IMPORTS if module == "sulcus" else {"AgentProcess"}
+            if module not in {"sulcus", "kernel.process"} or imported_names - allowed_names:
                 raise ValueError(
                     f"agent script import is not allowed: from {module} import {', '.join(sorted(imported_names))}. "
-                    "Use 'from agentos import AgentProcess'; additional imports are disabled for agent scripts."
+                    "Use 'from sulcus import AgentProcess'; additional imports are disabled for agent scripts."
                 )
         if isinstance(node, ast.ClassDef):
             if any(_base_name(base) == "AgentProcess" for base in node.bases):

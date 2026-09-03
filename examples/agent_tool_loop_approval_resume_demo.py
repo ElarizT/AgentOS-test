@@ -7,10 +7,10 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from agentos.runtime import AgentToolLoop, ToolApprovalDecision
+from sulcus.runtime import AgentToolLoop, ToolApprovalDecision
 from kernel.events import RuntimeEventLog
-from agentos.llm import LLMRequest, LLMResponse, LLMRuntime, LLMToolCall, LLMToolDefinition
-from agentos.tools import ToolRegistry, ToolRuntime
+from sulcus.llm import LLMRequest, LLMResponse, LLMRuntime, LLMToolCall, LLMToolDefinition
+from sulcus.tools import ToolRegistry, ToolRuntime
 
 
 class ScriptedProvider:

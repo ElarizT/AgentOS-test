@@ -25,7 +25,7 @@ class ToolValidationError(ToolRuntimeError):
 
 @dataclass(frozen=True)
 class ToolDefinition:
-    """Approved callable tool registered with Agent OS."""
+    """Approved callable tool registered with Sulcus."""
 
     name: str
     description: str

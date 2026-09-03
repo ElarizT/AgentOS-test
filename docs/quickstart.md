@@ -1,6 +1,6 @@
 # 10-minute offline quickstart
 
-This tutorial uses only public `agentos` imports. It needs no API key, network,
+This tutorial uses only public `sulcus` imports. It needs no API key, network,
 Rust toolchain, or native core.
 
 ## 1. Install from the repository
@@ -32,9 +32,9 @@ The answer is 42.
 Here is the complete pattern used by that example:
 
 ```python
-from agentos.llm import LLMResponse, LLMRuntime, LLMToolCall
-from agentos.runtime import AgentToolLoop
-from agentos.tools import ToolRegistry, ToolRuntime
+from sulcus.llm import LLMResponse, LLMRuntime, LLMToolCall
+from sulcus.runtime import AgentToolLoop
+from sulcus.tools import ToolRegistry, ToolRuntime
 
 
 class ScriptedProvider:
@@ -102,7 +102,7 @@ never executes a tool.
 Limits can be attached to the loop configuration or supplied for one run:
 
 ```python
-from agentos.runtime import AgentToolLoopConfig, ToolResourceLimits
+from sulcus.runtime import AgentToolLoopConfig, ToolResourceLimits
 
 limits = ToolResourceLimits(
     max_tool_calls_per_loop=4,
@@ -133,7 +133,7 @@ stuck Python function.
 Approval pauses the loop before any pending tool executes:
 
 ```python
-from agentos.runtime import ToolApprovalDecision
+from sulcus.runtime import ToolApprovalDecision
 
 paused = loop.run(
     messages=[{"role": "user", "content": "What is 20 plus 22?"}],
@@ -170,7 +170,7 @@ To persist instead of resuming in memory, start a fresh run through step 4 and
 save its paused checkpoint before supplying any decisions:
 
 ```python
-from agentos.checkpoints import (
+from sulcus.checkpoints import (
     inspect_checkpoint,
     resume_checkpoint,
     save_checkpoint,

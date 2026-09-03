@@ -364,11 +364,11 @@ impl BusInner {
         let (shutdown_tx, shutdown_rx) = oneshot::channel();
 
         let worker = thread::Builder::new()
-            .name("agent-os-ipc-runtime".to_string())
+            .name("sulcus-ipc-runtime".to_string())
             .spawn(move || {
                 let runtime = match Builder::new_multi_thread()
                     .enable_all()
-                    .thread_name("agent-os-ipc-worker")
+                    .thread_name("sulcus-ipc-worker")
                     .build()
                 {
                     Ok(runtime) => runtime,

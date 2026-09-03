@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 from textual.widgets import Static
 
-from kernel.dashboard import AgentOSDashboard
+from kernel.dashboard import SulcusDashboard
 from kernel.events import RuntimeEvent
 from kernel.llm_stream_monitor import (
     LLMStreamMetric,
@@ -41,8 +41,8 @@ def stream_event(
     )
 
 
-def make_dashboard() -> AgentOSDashboard:
-    return AgentOSDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
+def make_dashboard() -> SulcusDashboard:
+    return SulcusDashboard(kernel=object(), bus=object(), memory=object(), sandbox=object())
 
 
 def test_empty_stream_snapshot_and_rendering() -> None:

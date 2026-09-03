@@ -11,7 +11,7 @@
 
 - Improve `kernel/toolchain.py` compile diagnostics and user-facing errors.
 - Add deterministic execution checks for generated sandbox code.
-- Benchmark and tune WASM fuel/memory defaults (`AGENT_OS_SANDBOX_FUEL`, mailbox sizing).
+- Benchmark and tune WASM fuel/memory defaults (`SULCUS_SANDBOX_FUEL`, mailbox sizing).
 - Add regression tests for unsafe/unsupported code patterns.
 
 ## Q4 2026: Developer Experience

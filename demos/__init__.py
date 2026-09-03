@@ -1,1 +1,1 @@
-"""Built-in Agent OS dashboard demos."""
+"""Built-in Sulcus dashboard demos."""

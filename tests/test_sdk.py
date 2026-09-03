@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from agentos import AgentProcess
+from sulcus import AgentProcess
 from kernel.process import AgentProcess as KernelAgentProcess
 from kernel.process import ProcessRegistry
 from kernel.shell_help import (
@@ -55,6 +55,8 @@ def test_quickstart_examples_compile_and_pass_agent_preflight(tmp_path) -> None:
         source = path.read_text(encoding="utf-8")
         compile(source, str(path), "exec")
         registry._preflight_source(path)
+        from kernel.process_runner import _preflight_source
+        _preflight_source(path)
 
 
 def test_shell_help_includes_quickstart_commands(tmp_path) -> None:
@@ -66,8 +68,8 @@ def test_shell_help_includes_quickstart_commands(tmp_path) -> None:
     assert "kill <PID>" in help_text
     assert "demos" in help_text
     assert "help" in help_text
-    assert "AGENT_OS_PROCESS_ISOLATION=in-process" in help_text
-    assert "AGENT_OS_PROCESS_ISOLATION=process" in help_text
+    assert "SULCUS_PROCESS_ISOLATION=in-process" in help_text
+    assert "SULCUS_PROCESS_ISOLATION=process" in help_text
     assert "run examples/hello_agent.py" in help_text
     assert "inspect examples/external_basic_agent" in help_text
     assert "run examples/research_team" in help_text
@@ -116,7 +118,7 @@ async def test_missing_agent_process_subclass_has_beginner_friendly_error(tmp_pa
 async def test_missing_agent_name_has_beginner_friendly_error(tmp_path) -> None:
     path = write_script(
         tmp_path,
-        "from agentos import AgentProcess\n\nclass MissingName(AgentProcess):\n    pass\n",
+        "from sulcus import AgentProcess\n\nclass MissingName(AgentProcess):\n    pass\n",
     )
 
     with pytest.raises(ValueError, match="must define a unique non-empty name"):
@@ -127,10 +129,10 @@ async def test_missing_agent_name_has_beginner_friendly_error(tmp_path) -> None:
 async def test_invalid_import_points_to_public_sdk(tmp_path) -> None:
     path = write_script(
         tmp_path,
-        "import os\nfrom agentos import AgentProcess\n\nclass BadImport(AgentProcess):\n    name = \"BadImport\"\n",
+        "import os\nfrom sulcus import AgentProcess\n\nclass BadImport(AgentProcess):\n    name = \"BadImport\"\n",
     )
 
-    with pytest.raises(ValueError, match="from agentos import AgentProcess"):
+    with pytest.raises(ValueError, match="from sulcus import AgentProcess"):
         await make_registry(tmp_path).run_path(str(path))
 
 
@@ -145,7 +147,7 @@ async def test_invalid_import_points_to_public_sdk(tmp_path) -> None:
 async def test_invalid_resource_setting_has_beginner_friendly_error(tmp_path, setting, value) -> None:
     path = write_script(
         tmp_path,
-        "from agentos import AgentProcess\n\n"
+        "from sulcus import AgentProcess\n\n"
         "class BadSetting(AgentProcess):\n"
         '    name = "BadSetting"\n'
         f"    {setting} = {value}\n",
